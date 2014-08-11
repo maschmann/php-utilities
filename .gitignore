@@ -1,3 +1,7 @@
+# dirs
 vendor
 .idea
+
+#files
 atlassian-ide-plugin.xml
+composer.lock
