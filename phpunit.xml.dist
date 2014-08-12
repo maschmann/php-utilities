@@ -13,15 +13,15 @@
         >
     <testsuites>
         <testsuite name="PhpUtilities testsuite">
-            <directory>./Asm/Tests</directory>
+            <directory>./src/Asm/Tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./Asm</directory>
+            <directory>./src/Asm</directory>
             <exclude>
-                <directory>./Asm/Tests</directory>
+                <directory>./src/Asm/Tests</directory>
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>
