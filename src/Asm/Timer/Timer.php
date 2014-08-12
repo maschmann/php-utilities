@@ -1,34 +1,26 @@
 <?php
-/**
- * @namespace
+/*
+ * This file is part of the php-utilities package.
+ *
+ * (c) Marc Aschmann <maschmann@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 namespace Asm\Timer;
 
-use Asm\Config\Config;
-use Asm\Cache\Cache;
-use Asm\System\System;
+use Asm\Data\Data;
 
 /**
- * Default Class
+ * Timer Class
  *
- * @author Marc Aschmann <maschmann@gmail.com>
- * @uses Asm\Config\Config
- * @uses Asm\Cache\Cache
- * @uses Asm\System\System
  * @package Asm\Timer
+ * @author Marc Aschmann <maschmann@gmail.com>
  */
 class Timer
 {
-
     /**
-     * system object
-     *
-     * @var \Asm\System\SystemFrontend
-     */
-    private $system = null;
-
-    /**
-     * @var \Asm\Config\ConfigTimer
+     * @var \Asm\Data\Data
      */
     private $config = null;
 
@@ -49,22 +41,12 @@ class Timer
     /**
      * constructor with dependency injection
      *
-     * @param \Asm\System\SystemFrontend $system
+     * @param array $config
      */
-    public function __construct($system)
+    public function __construct(array $config)
     {
-        /** @var \Asm\System\SystemFrontend $system */
-        $this->system = $system;
-
-        /** @var \Asm\Config\ConfigTimer $config */
-        $this->config = Config::factory(
-            array(
-                'file' => System::getConfigBasePath() . 'timer.yml',
-                'env'  => $this->system->getEnv(),
-                'TTL'  => Cache::CACHE_CONFIG_DEFAULT_TTL,
-            ),
-            'ConfigTimer'
-        );
+        $this->config = new Data();
+        $this->config->setByArray($config);
 
         return $this;
     }
