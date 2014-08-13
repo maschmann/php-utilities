@@ -48,7 +48,7 @@ class DataCollection extends Data implements DataInterface, \Iterator
      */
     public function current()
     {
-        return $this->getKey('items', $this->position);
+        return $this->get('items', $this->position);
     }
 
     /**
@@ -82,7 +82,7 @@ class DataCollection extends Data implements DataInterface, \Iterator
      */
     public function valid()
     {
-        return $this->getKey('items', $this->position, false);
+        return $this->get('items', $this->position, false);
     }
 
     /**
@@ -136,6 +136,9 @@ class DataCollection extends Data implements DataInterface, \Iterator
     }
 
     /**
+     * remove item from position
+     * be carefull: this also reindexes the array
+     *
      * @param  integer $position
      * @return $this
      */
@@ -150,21 +153,5 @@ class DataCollection extends Data implements DataInterface, \Iterator
         }
 
         return $this;
-    }
-
-    /**
-     * @param integer $count
-     */
-    public function setTotalCount($count)
-    {
-        $this->totalCount = $count;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getTotalCount()
-    {
-        return $this->totalCount;
     }
 }

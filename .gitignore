@@ -1,6 +1,7 @@
 # dirs
 vendor
 .idea
+tmp
 
 #files
 atlassian-ide-plugin.xml
