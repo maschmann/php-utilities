@@ -60,7 +60,7 @@ class Timer
     public function isTimerActive($strType)
     {
         $return = false;
-        $this->currentConf = $this->config->getKey('timers', $strType);
+        $this->currentConf = $this->config->get('timers', $strType);
 
         // pre-check holidays and shop config
         if (empty($this->currentConf['shops']) || in_array($this->system->getShopName(), $this->currentConf['shops'])) {
@@ -70,11 +70,10 @@ class Timer
                     if (false == $this->isHoliday()) {
                         $return = $this->checkDate();
                     }
-                } elseif (0 < count($this->config->getKey('holidays', $this->system->getShopName()))) {
+                } elseif (0 < count($this->config->get('holidays', $this->system->getShopName()))) {
                     if (false === $this->checkIntervals(
-                            $this->config->getKey('holidays', $this->system->getShopName())
-                        )
-                    ) {
+                        $this->config->get('holidays', $this->system->getShopName())
+                    )) {
                         // we're not in a holiday
                         $return = $this->checkDate();
                     }
@@ -156,7 +155,7 @@ class Timer
             $today = new \DateTime($mixDate);
         }
 
-        foreach ($this->config->getKey('general_holidays') as $holiday) {
+        foreach ($this->config->get('general_holidays') as $holiday) {
             // clone for start/enddate
             $holidayEnd = clone $holiday;
             $holidayStart = clone $holiday;
