@@ -14,6 +14,7 @@ namespace Asm\Config;
  *
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
+ * @codeCoverageIgnore
  */
 interface ConfigInterface
 {

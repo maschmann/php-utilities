@@ -15,32 +15,45 @@ namespace Asm\Config;
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
  */
-class ConfigFactory
+final class ConfigFactory
 {
+
+    /**
+     * @var array
+     */
+    private static $whitelist = array(
+        'ConfigDefault',
+        'ConfigEnv',
+        'ConfigTimer',
+    );
+
     /**
      * get object of specific class
      *
-     * @param  string $file config file name
+     * @param  array $param config file name
      * @param  string $class name of class without
      * @throws \ErrorException
      * @throws \InvalidArgumentException
      * @return ConfigInterface
      */
-    public static function factory($file, $class = 'ConfigDefault')
+    public static function factory(array $param, $class = 'ConfigDefault')
     {
-        if (false === strpos($class, 'Asm')) {
-            $class = __NAMESPACE__ . '\\' . $class;
-        }
-
-        if (class_exists($class)) {
-            // allow config names without ending
-            if (false === strpos($file, '.yml')) {
-                $file = $file . '.yml';
+        // @todo support more filetypes
+        if (in_array($class, self::$whitelist)) {
+            if (false === strpos($class, 'Asm')) {
+                $class = __NAMESPACE__ . '\\' . $class;
             }
 
-            return new $class($file);
+            // allow config names without ending
+            if (!empty($param['file']) && false === strpos($param['file'], '.yml')) {
+                $param = $param . '.yml';
+            } else {
+                throw new \InvalidArgumentException('config filename missing in param array!');
+            }
+
+            return new $class($param);
         } else {
-            throw new \ErrorException('could not instantiate ' . $class . ' - not in self::$arrClassWhitelist');
+            throw new \ErrorException('could not instantiate ' . $class . ' - not in self::$whitelist');
         }
     }
 

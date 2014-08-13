@@ -17,6 +17,9 @@ use Symfony\Component\Yaml\Yaml;
  *
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
+ * @codeCoverageIgnore
+ * @uses Asm\Data\Data
+ * @uses Symfony\Component\Yaml\Yaml
  */
 abstract class ConfigAbstract extends Data
 {
