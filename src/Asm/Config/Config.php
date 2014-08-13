@@ -15,9 +15,8 @@ namespace Asm\Config;
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
  */
-final class ConfigFactory
+final class Config
 {
-
     /**
      * @var array
      */
@@ -45,9 +44,7 @@ final class ConfigFactory
             }
 
             // allow config names without ending
-            if (!empty($param['file']) && false === strpos($param['file'], '.yml')) {
-                $param = $param . '.yml';
-            } else {
+            if (empty($param['file'])) {
                 throw new \InvalidArgumentException('config filename missing in param array!');
             }
 

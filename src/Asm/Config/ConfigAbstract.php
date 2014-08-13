@@ -53,7 +53,7 @@ abstract class ConfigAbstract extends Data
      */
     public function addConfig($name, $file)
     {
-        $this->setKey($name, $this->readConfig($file));
+        $this->set($name, $this->readConfig($file));
     }
 
     /**
@@ -64,6 +64,10 @@ abstract class ConfigAbstract extends Data
      */
     public function readConfig($file)
     {
+        if (!is_file($file)) {
+            throw new \InvalidArgumentException('Given config file ' . $file . ' does not exist!');
+        }
+
         return Yaml::parse($file);
     }
 
