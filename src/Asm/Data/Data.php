@@ -35,12 +35,12 @@ class Data implements DataInterface
 
     /**
      * generic set method for multidimensional storage
-     * $this->setKey( $key1, $key2, $key3, ..., $val )
+     * $this->set( $key1, $key2, $key3, ..., $val )
      *
      * @throws \InvalidArgumentException
      * @return $this
      */
-    public function setKey()
+    public function set()
     {
         $args = func_get_args();
         $replace = null;
@@ -77,10 +77,16 @@ class Data implements DataInterface
      */
     public function setByArray(array $param)
     {
-        // reset array to explicitly start at beginning
-        reset($param);
-        foreach ($param as $key => $value) {
-            $this->setKey($key, $value);
+        if (!empty($param)) {
+            // reset array to explicitly start at beginning
+            reset($param);
+            foreach ($param as $key => $value) {
+                $this->set($key, $value);
+            }
+        } else {
+            throw new \InvalidArgumentException(
+                '--  ( ' . __FILE__ . ' ) ( ' . __LINE__ . ' ) -- $param is empty!'
+            );
         }
 
         return $this;
@@ -89,7 +95,7 @@ class Data implements DataInterface
     /**
      * adds given object's properties to self
      *
-     * @param  object                    $param
+     * @param  object $param
      * @return $this
      * @throws \InvalidArgumentException
      */
@@ -97,14 +103,14 @@ class Data implements DataInterface
     {
         // check for DataContainer instances - because otherwise you can't easily access virtual properties
         if (is_object($param)) {
-            if (is_a($param, 'Asm\Data\DataContainer', true)) {
-                foreach ($param->getAllData() as $key => $value) {
-                    $this->setKey($key, $value);
+            if (is_a($param, 'Asm\Data\Data', true)) {
+                foreach ($param->toArray() as $key => $value) {
+                    $this->set($key, $value);
                 }
             } else {
                 // handle as "normal" object
                 foreach ($param as $property => $value) {
-                    $this->setKey($property, $value);
+                    $this->set($property, $value);
                 }
             }
         } else {
@@ -132,11 +138,11 @@ class Data implements DataInterface
     /**
      * multidimensional getter
      * find a key structure in a multidimensional array and return the value
-     * params are stackable -> getKey( $k1, $k2, $k3, ... )
+     * params are stackable -> get( $k1, $k2, $k3, ... )
      *
      * @return bool|mixed
      */
-    public function getKey()
+    public function get()
     {
         $data = $this->data;
         $default = false;
@@ -180,33 +186,13 @@ class Data implements DataInterface
      * @param  string $key
      * @return $this
      */
-    public function removeKey($key)
+    public function remove($key)
     {
         if (array_key_exists($key, $this->data)) {
             unset($this->data[$key]);
         }
 
         return $this;
-    }
-
-    /**
-     * return all data from storage
-     * @deprecated
-     * @return array
-     */
-    public function getAllData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * return stored data array, alias for toArray
-     *
-     * @return array
-     */
-    public function getAsArray()
-    {
-        return $this->toArray();
     }
 
     /**
@@ -227,6 +213,7 @@ class Data implements DataInterface
         return json_encode($this->data);
     }
 
+
     /**
      * return count of all firstlevel elements
      *
@@ -238,17 +225,19 @@ class Data implements DataInterface
     }
 
     /**
+     * find a key in an array
+     * example Data::findInArray(array(), key1, key2, key3, ..., default_return)
+     *
      * @return array|bool|mixed
      */
     public static function findInArray()
     {
-        $data = array();
-        $default = false;
         $args = func_get_args();
+        $data = array_shift($args);
+        $default = false;
 
         // check for default return value
-        if (2 < count($args)) {
-            $data = array_shift($args);
+        if (1 < count($args)) {
             $lastElm = array_pop($args);
             if (empty($lastElm) && !is_numeric($lastElm)) {
                 $default = $lastElm;

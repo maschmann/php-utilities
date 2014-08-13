@@ -4,7 +4,6 @@
  */
 namespace Asm\Tests\Data;
 
-use Asm\Test\LibraryTestCase;
 use Asm\Data\Data;
 
 /**
@@ -12,7 +11,6 @@ use Asm\Data\Data;
  *
  * @package Asm\Tests\Data
  * @author marc aschmann <maschmann@gmail.com>
- * @uses Asm\Test\LibraryTestCase
  * @uses Asm\Data\Data
  */
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -29,67 +27,65 @@ class DataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * test basic setKey()
+     * test basic set()
      *
      * @depends testConstruct
-     * @covers  \Asm\Data\Data::setKey
      * @covers  \Asm\Data\Data::set
-     * @covers  \Asm\Data\Data::getKey
+     * @covers  \Asm\Data\Data::get
      * @param  Data $data
      * @return Data
      */
-    public function testSetKey(Data $data)
+    public function testSet(Data $data)
     {
         // test setters
 
         // test initial setting of value
-        $data->setKey('test_key_1', 'test_value');
-        $this->assertEquals('test_value', $data->getKey('test_key_1'), 'ist value key1 equal to value');
+        $data->set('test_key_1', 'test_value');
+        $this->assertEquals('test_value', $data->get('test_key_1'), 'ist value key1 equal to value');
 
         // test overwrite
-        $data->setKey('test_key_1', 'test_value_blah');
-        $this->assertEquals('test_value_blah', $data->getKey('test_key_1'), 'can key be overwritten');
+        $data->set('test_key_1', 'test_value_blah');
+        $this->assertEquals('test_value_blah', $data->get('test_key_1'), 'can key be overwritten');
 
-        $data->setKey('test_key_1', 'test_key_2', 'test_value3');
-        $this->assertEquals('test_value3', $data->getKey('test_key_1', 'test_key_2'), 'multidim key get');
+        $data->set('test_key_1', 'test_key_2', 'test_value3');
+        $this->assertEquals('test_value3', $data->get('test_key_1', 'test_key_2'), 'multidim key get');
 
         // test initial setting of value
-        $data->setKey('test_key_4', array('test_key_3' => 'testValue4'));
-        $data->setKey('test_key_5', array('test_key_4' => 'testValue5'));
+        $data->set('test_key_4', array('test_key_3' => 'testValue4'));
+        $data->set('test_key_5', array('test_key_4' => 'testValue5'));
 
-        $this->assertEquals('testValue4', $data->getKey('test_key_4', 'test_key_3'), 'merge arrays on set');
-        $this->assertEquals('testValue5', $data->getKey('test_key_5', 'test_key_4'), 'merge arrays on set');
+        $this->assertEquals('testValue4', $data->get('test_key_4', 'test_key_3'), 'merge arrays on set');
+        $this->assertEquals('testValue5', $data->get('test_key_5', 'test_key_4'), 'merge arrays on set');
 
         return $data;
     }
 
     /**
-     * @depends testSetKey
+     * @depends testSet
      * @expectedException InvalidArgumentException
      * @param Data $data
      */
-    public function testSetKeyException(Data $data)
+    public function testSetException(Data $data)
     {
-        $data->setKey();
-        $data->setKey('blah');
+        $data->set();
+        $data->set('blah');
     }
 
     /**
-     * test basic getKey
+     * test basic get
      *
-     * @depends testSetKey
-     * @covers  \Asm\Data\Data::getKey
-     * @covers  \Asm\Data\Data::__call
+     * @depends testSet
+     * @covers  \Asm\Data\Data::get
      * @param  Data $data
      * @return Data
      */
-    public function testGetKey(Data $data)
+    public function testGet(Data $data)
     {
         // single value get
-        $data->setKey('testKey1', 'test_value');
-        $this->assertEquals('test_value', $data->getKey('testKey1'));
+        $data->set('testKey1', 'test_value');
+        $this->assertEquals('test_value', $data->get('testKey1'));
 
-        $data->setKey(
+        $data->set(
             'testKey2',
             array(
                 'test'     => 'test_value',
@@ -100,30 +96,30 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
 
         // single dimension array getter
-        $mixResult = $data->getKey('testKey2');
+        $mixResult = $data->get('testKey2');
         $this->assertTrue(is_array($mixResult));
         $this->assertArrayHasKey('test', $mixResult);
 
         // multi dimension array single value getter
-        $mixResult = $data->getKey('testKey2', 'test');
+        $mixResult = $data->get('testKey2', 'test');
         $this->assertEquals('test_value', $mixResult);
 
         // multi dimension array single value getter
-        $mixResult = $data->getKey('testKey2', 'sub_test', 'subsubtest');
+        $mixResult = $data->get('testKey2', 'sub_test', 'subsubtest');
 
         $this->assertEquals('subvalue', $mixResult);
 
         // non existent keys
-        $this->assertFalse($data->getKey('nothing'));
-        $this->assertFalse($data->getKey('testKey2', 'nothing'));
-        $this->assertFalse($data->getKey('testKey2', 'sub_test', 'nothing'));
-        $this->assertTrue(is_array($data->getKey('testKey2', 'sub_test', '')));
+        $this->assertFalse($data->get('nothing'));
+        $this->assertFalse($data->get('testKey2', 'nothing'));
+        $this->assertFalse($data->get('testKey2', 'sub_test', 'nothing'));
+        $this->assertTrue(is_array($data->get('testKey2', 'sub_test', '')));
 
         return $data;
     }
 
     /**
-     * @depends testSetKey
+     * @depends testSet
      * @covers  \Asm\Data\Data::setByArray
      * @param  Data $data
      * @return Data
@@ -139,12 +135,22 @@ class DataTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals('test_value_3', $data->getKey('testKey3'));
-        $this->assertEquals('test_value_4', $data->getKey('testKey4'));
-        $this->assertArrayHasKey('subKey1', $data->getKey('testKey5'));
-        $this->assertInstanceOf('stdClass', $data->getKey('testKey6'));
+        $this->assertEquals('test_value_3', $data->get('testKey3'));
+        $this->assertEquals('test_value_4', $data->get('testKey4'));
+        $this->assertArrayHasKey('subKey1', $data->get('testKey5'));
+        $this->assertInstanceOf('stdClass', $data->get('testKey6'));
 
         return $data;
+    }
+
+    /**
+     * @depends testConstruct
+     * @expectedException InvalidArgumentException
+     * @param Data $data
+     */
+    public function testSetByArrayException(Data $data)
+    {
+        $data->setByArray(array());
     }
 
     /**
@@ -163,12 +169,138 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $data->setByObject($objParam);
 
-        $this->assertEquals('test_property_value_1', $data->getKey('testProperty1'));
-        $this->assertEquals('test_property_value_2', $data->getKey('testProperty2'));
-        $this->assertArrayHasKey('subkeyPropertyTest', $data->getKey('testProperty3'));
-        $this->assertInstanceOf('stdClass', $data->getKey('testProperty4'));
+        $this->assertEquals('test_property_value_1', $data->get('testProperty1'));
+        $this->assertEquals('test_property_value_2', $data->get('testProperty2'));
+        $this->assertArrayHasKey('subkeyPropertyTest', $data->get('testProperty3'));
+        $this->assertInstanceOf('stdClass', $data->get('testProperty4'));
+
+        $fromData = new Data();
+        $fromData->setByObject($data);
+
+        $this->assertEquals('test_property_value_1', $fromData->get('testProperty1'));
+        $this->assertEquals('test_property_value_2', $fromData->get('testProperty2'));
+        $this->assertArrayHasKey('subkeyPropertyTest', $fromData->get('testProperty3'));
+        $this->assertInstanceOf('stdClass', $fromData->get('testProperty4'));
 
         return $data;
+    }
+
+    /**
+     * @depends testConstruct
+     * @expectedException InvalidArgumentException
+     * @param Data $data
+     */
+    public function testSetByObjectException(Data $data)
+    {
+        $data->setByObject(null);
+    }
+
+    /**
+     * @depends testConstruct
+     * @covers \Asm\Data\Data::setByJson
+     * @param  Data $data
+     * @return Data
+     */
+    public function testSetByJson(Data $data)
+    {
+        $data->setByJson(
+            json_encode(
+                array(
+                    'testKey3' => 'test_value_3',
+                    'testKey4' => 'test_value_4',
+                    'testKey5' => array('subKey1' => 'sub_val_1'),
+                )
+            )
+        );
+
+        $this->assertEquals('test_value_3', $data->get('testKey3'));
+        $this->assertEquals('test_value_4', $data->get('testKey4'));
+        $this->assertArrayHasKey('subKey1', $data->get('testKey5'));
+
+        return $data;
+    }
+
+    /**
+     * @depends testSetByArray
+     * @covers \Asm\Data\Data::getKeys
+     * @param  Data $data
+     */
+    public function testGetKeys(Data $data)
+    {
+        $temp = $data->getKeys();
+        $this->assertNotEmpty($temp, "empty array");
+        $this->assertNotEmpty($temp[0]);
+    }
+
+    /**
+     * @depends testSetByArray
+     * @covers \Asm\Data\Data::remove
+     * @param  Data $data
+     */
+    public function testRemove(Data $data)
+    {
+        $data->set('removal_test', 'xyz');
+        $this->assertEquals('xyz', $data->get('removal_test'));
+        $data->remove('removal_test');
+        $this->assertFalse($data->get('removal_test'));
+    }
+
+    /**
+     * @depends testSetByArray
+     * @covers \Asm\Data\Data::toArray
+     * @param  Data $data
+     */
+    public function testToArray(Data $data)
+    {
+        $temp = $data->toArray();
+        $this->assertArrayHasKey('testKey5', $temp);
+    }
+
+    /**
+     * @depends testSetByArray
+     * @covers \Asm\Data\Data::toJson
+     * @param  Data $data
+     */
+    public function testToJson(Data $data)
+    {
+        $temp = json_decode($data->toJson());
+
+        $this->assertNotFalse($temp);
+        $this->assertNotEmpty($temp->testKey5);
+    }
+
+    /**
+     * @depends testSetByArray
+     * @covers \Asm\Data\Data::count
+     * @param  Data $data
+     */
+    public function testCount(Data $data)
+    {
+        $temp = $data->toArray();
+        $this->assertEquals(count($temp), $data->count());
+    }
+
+    /**
+     * @depends testSetByArray
+     * @covers \Asm\Data\Data::findInArray
+     * @param  Data $data
+     */
+    public function testFindInArray(Data $data)
+    {
+        $temp = $data->toArray();
+
+        $this->assertNotFalse(Data::findInArray($temp, 'testKey5'));
+        $this->assertNotFalse(Data::findInArray($temp, 'testProperty3', 'subkeyPropertyTest'));
+        $this->assertFalse(Data::findInArray($temp, 'testKey35', false));
+    }
+
+    /**
+     * @covers \Asm\Data\Data::normalize
+     */
+    public function testNormalize()
+    {
+        $key = Data::normalize('this_is_my_key');
+        $this->assertEquals('thisIsMyKey', $key);
     }
 
     /**

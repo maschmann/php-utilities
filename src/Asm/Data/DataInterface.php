@@ -24,12 +24,12 @@ interface DataInterface
 
     /**
      * generic set method for multidimensional storage
-     * $this->setKey( $key1, $key2, $key3, ..., $mixVal )
+     * $this->set( $key1, $key2, $key3, ..., $mixVal )
      *
      * @throws \InvalidArgumentException
      * @return $this
      */
-    public function setKey();
+    public function set();
 
     /**
      * set list of key/value pairs via one dimensional array
@@ -58,18 +58,18 @@ interface DataInterface
     /**
      * multidimensional getter
      * find a key structure in a multidimensional array and return the value
-     * params are stackable -> getKey( $k1, $k2, $k3, ... )
+     * params are stackable -> get( $k1, $k2, $k3, ... )
      *
      * @return bool|mixed
      */
-    public function getKey();
+    public function get();
 
     /**
      * remove key from container
      *
      * @param string $key
      */
-    public function removeKey($key);
+    public function remove($key);
 
     /**
      * gets key index

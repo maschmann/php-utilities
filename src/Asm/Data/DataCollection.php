@@ -34,7 +34,7 @@ class DataCollection extends Data implements DataInterface, \Iterator
     public function __construct($data = null)
     {
         if (null != $data && is_array($data)) {
-            $this->setKey('items', $data);
+            $this->set('items', $data);
         }
 
         $this->position = 0;
@@ -106,11 +106,11 @@ class DataCollection extends Data implements DataInterface, \Iterator
     public function addItem($item, $position = null)
     {
         if (null == $position) {
-            $items = $this->getKey('items', array());
+            $items = $this->get('items', array());
             array_push($items, $item);
-            $this->setKey('items', $items);
+            $this->set('items', $items);
         } else {
-            $this->setKey('items', $position, $item);
+            $this->set('items', $position, $item);
         }
 
         return $this;
@@ -124,7 +124,7 @@ class DataCollection extends Data implements DataInterface, \Iterator
      */
     public function getItem($position = 0)
     {
-        return $this->getKey('items', $position, false);
+        return $this->get('items', $position, false);
     }
 
     /**
@@ -132,7 +132,7 @@ class DataCollection extends Data implements DataInterface, \Iterator
      */
     public function count()
     {
-        return count($this->getKey('items', array()));
+        return count($this->get('items', array()));
     }
 
     /**
@@ -141,12 +141,12 @@ class DataCollection extends Data implements DataInterface, \Iterator
      */
     public function removeItem($position)
     {
-        $items = $this->getKey('items', array());
+        $items = $this->get('items', array());
 
         if (isset($items[$position])) {
             unset($items[$position]);
-            $this->setKey('items', null);
-            $this->setKey('items', array_values($items));
+            $this->set('items', null);
+            $this->set('items', array_values($items));
         }
 
         return $this;
