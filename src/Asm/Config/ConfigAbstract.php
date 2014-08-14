@@ -24,6 +24,11 @@ use Symfony\Component\Yaml\Yaml;
 abstract class ConfigAbstract extends Data
 {
     /**
+     * @var bool
+     */
+    protected $filecheck = true;
+
+    /**
      * default constructor
      * calls child's init() method
      *
@@ -31,6 +36,10 @@ abstract class ConfigAbstract extends Data
      */
     public function __construct(array $param)
     {
+        if (isset($param['filecheck'])) {
+            $this->filecheck = (bool)$param['filecheck'];
+        }
+
         // default init of child class
         $this->init($param);
     }
@@ -64,7 +73,7 @@ abstract class ConfigAbstract extends Data
      */
     public function readConfig($file)
     {
-        if (!is_file($file)) {
+        if ($this->filecheck && !is_file($file)) {
             throw new \InvalidArgumentException('Given config file ' . $file . ' does not exist!');
         }
 

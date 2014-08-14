@@ -9,6 +9,8 @@
  */
 namespace Asm\Config;
 
+use Asm\Data\Data;
+
 /**
  * Class ConfigDefault
  *
@@ -17,12 +19,10 @@ namespace Asm\Config;
  */
 class ConfigEnv extends ConfigAbstract implements ConfigInterface
 {
-    private $defaults = array(
-        'prod',
-        'stage',
-        'test',
-        'dev',
-    );
+    /**
+     * @var string
+     */
+    protected $defaultEnv = 'prod';
 
     /**
      * default method
@@ -39,6 +39,17 @@ class ConfigEnv extends ConfigAbstract implements ConfigInterface
     }
 
     /**
+     * change default env.
+     * default env is the base/blueprint for merging
+     *
+     * @param $env
+     */
+    public function setDefaultEnv($env)
+    {
+        $this->defaultEnv = $env;
+    }
+
+    /**
      * merge environments based on defaults array
      * merge order is prod -> lesser environment
      *
@@ -46,6 +57,21 @@ class ConfigEnv extends ConfigAbstract implements ConfigInterface
      */
     private function mergeEnvironments($param)
     {
-        $this->setConfig($param['file']);
+        $config = new Data();
+        $config->setByArray(
+            $this->readConfig($param['file'])
+        );
+
+        if (isset($param['env']) && $this->defaultEnv !== $param['env']) {
+            $toMerge = $config->get($param['env'], array());
+            $merged = array_replace_recursive(
+                $config->get($this->defaultEnv),
+                $toMerge
+            );
+        } else {
+            $merged = $config->get($this->defaultEnv);
+        }
+
+        $this->setByArray($merged);
     }
 }
