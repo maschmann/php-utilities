@@ -9,7 +9,7 @@
  */
 namespace Asm\Timer;
 
-use Asm\Data\Data;
+use Asm\Config\ConfigTimer;
 
 /**
  * Timer Class
@@ -41,12 +41,11 @@ class Timer
     /**
      * constructor with dependency injection
      *
-     * @param array $config
+     * @param ConfigTimer $config
      */
-    public function __construct(array $config)
+    public function __construct(ConfigTimer $config)
     {
-        $this->config = new Data();
-        $this->config->setByArray($config);
+        $this->config = $config;
 
         return $this;
     }
@@ -54,33 +53,29 @@ class Timer
     /**
      * check if timer is active
      *
-     * @param  string $strType
+     * @param  string $type
      * @return boolean
      */
-    public function isTimerActive($strType)
+    public function isTimerActive($type)
     {
         $return = false;
-        $this->currentConf = $this->config->get('timers', $strType);
+        $this->currentConf = $this->config->get('timers', $type);
 
-        // pre-check holidays and shop config
-        if (empty($this->currentConf['shops']) || in_array($this->system->getShopName(), $this->currentConf['shops'])) {
-            if (isset($this->currentConf['holiday'])) {
-                // check if shop uses general holiday config
-                if (true === $this->currentConf['holiday']['use_general']) {
-                    if (false == $this->isHoliday()) {
-                        $return = $this->checkDate();
-                    }
-                } elseif (0 < count($this->config->get('holidays', $this->system->getShopName()))) {
-                    if (false === $this->checkIntervals(
-                        $this->config->get('holidays', $this->system->getShopName())
-                    )) {
-                        // we're not in a holiday
-                        $return = $this->checkDate();
-                    }
+        // pre-check holidays
+        if (isset($this->currentConf['holiday'])) {
+            // check if general holidays are to be used
+            if (true === $this->currentConf['holiday']['use_general']) {
+                if (false == $this->isHoliday()) {
+                    $return = $this->checkDate();
                 }
-            } else {
-                $return = $this->checkDate();
+            } elseif (0 < count($this->config->get('holidays'))) {
+                if (false === $this->checkIntervals($this->config->get('holidays'))) {
+                    // we're not in a holiday
+                    $return = $this->checkDate();
+                }
             }
+        } else {
+            $return = $this->checkDate();
         }
 
         return $return;
@@ -89,12 +84,12 @@ class Timer
     /**
      * calculate difference between holiday DateTime objects and current or given time
      *
-     * @param  mixed $mixDate
+     * @param  mixed $date
      * @return bool|\DateTime
      */
-    public function isHoliday($mixDate = null)
+    public function isHoliday($date = null)
     {
-        return $this->checkHoliday($mixDate);
+        return $this->checkHoliday($date);
     }
 
     /**
@@ -142,33 +137,25 @@ class Timer
     /**
      * check for holidays
      *
-     * @param  \DateTime|null $mixDate
+     * @param  \DateTime|null $date
      * @return bool
      */
-    private function checkHoliday($mixDate = null)
+    private function checkHoliday($date = null)
     {
         $mixReturn = false;
 
-        if (empty($mixDate)) {
+        if (empty($date)) {
             $today = new \DateTime();
         } else {
-            $today = new \DateTime($mixDate);
+            $today = new \DateTime($date);
         }
 
         foreach ($this->config->get('general_holidays') as $holiday) {
             // clone for start/enddate
             $holidayEnd = clone $holiday;
             $holidayStart = clone $holiday;
-            $startTime = array(
-                '00',
-                '00',
-                '00',
-            );
-            $endTime = array(
-                '23',
-                '59',
-                '59',
-            );
+            $startTime = array('00', '00', '00');
+            $endTime = array('23', '59', '59');
 
             if (isset($this->currentConf['holiday']['interval'])) {
                 $startTime = explode(':', $this->currentConf['holiday']['interval'][0]);

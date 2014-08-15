@@ -22,7 +22,7 @@ class ConfigTimer extends ConfigAbstract implements ConfigInterface
      * called by parent::__construct()
      *
      * @param  array $param
-     * @return \Asm\Config\ConfigTimer
+     * @return ConfigTimer
      */
     public function init(array $param)
     {
@@ -32,44 +32,46 @@ class ConfigTimer extends ConfigAbstract implements ConfigInterface
     }
 
     /**
-     * convert config file to properties of config object
+     * convert config date strings to \DateTime objects or \DateIntervals
      *
-     * @param string $file absolute filepath/filename.ending
+     * @param string $file config file
      */
     public function setConfig($file)
     {
-        $arrConf = $this->readConfig($file);
+        $config = $this->readConfig($file);
 
         // iterate conf and check if there are dates/datetimes/times and so on, for conversion
-        foreach ($arrConf as $strTimerKey => $arrTimer) {
+        foreach ($config as $timerKey => $timers) {
 
-            switch ($strTimerKey) {
+            switch ($timerKey) {
                 case 'timers':
+                    foreach ($timers as $timerSubKey => $params) {
 
-                    foreach ($arrTimer as $strTimerSubKey => $params) {
-
-                        foreach ($params as $strParamKey => $mixParamVal) {
-                            switch ($strParamKey) {
+                        foreach ($params as $paramKey => $paramVal) {
+                            switch ($paramKey) {
                                 case 'interval':
 
                                     // check the contents of interval
-                                    foreach ($mixParamVal as $intIntervalKey => $arrInterval) {
+                                    foreach ($paramVal as $intervalKey => $interval) {
 
                                         // convert all sub elements
-                                        foreach ($arrInterval as $intKey => $mixIntervalVal) {
+                                        foreach ($interval as $key => $intervalValue) {
 
                                             // just a date, no time - one element
-                                            switch (count($arrInterval)) {
+                                            switch (count($interval)) {
                                                 case 1:
-                                                    $objDateEnd                                                               = new \DateTime(
-                                                        $mixIntervalVal . ' 23:59:59'
+                                                    $dateEnd = new \DateTime(
+                                                        $intervalValue . ' 23:59:59'
                                                     );
-                                                    $arrConf[$strTimerKey][$strTimerSubKey][$strParamKey][$intIntervalKey][1] = $objDateEnd;
+                                                    $config[$timerKey][$timerSubKey][$paramKey][$intervalKey][1] =
+                                                        $dateEnd;
+                                                //fallthrough
                                                 case 2:
-                                                    $objDate                                                                        = new \DateTime(
-                                                        $mixIntervalVal
+                                                    $data = new \DateTime(
+                                                        $intervalValue
                                                     );
-                                                    $arrConf[$strTimerKey][$strTimerSubKey][$strParamKey][$intIntervalKey][$intKey] = $objDate;
+                                                    $config[$timerKey][$timerSubKey][$paramKey][$intervalKey][$key] =
+                                                        $data;
                                                     break;
                                             }
 
@@ -85,42 +87,42 @@ class ConfigTimer extends ConfigAbstract implements ConfigInterface
 
                     break;
                 case 'holidays':
-                    foreach ($arrTimer as $strTimerSubKey => $params) {
+                    foreach ($timers as $timerSubKey => $params) {
 
-                        foreach ($params as $intParamKey => $strParamVal) {
-                            $arrConf[$strTimerKey][$strTimerSubKey][$intParamKey] = array(
-                                new \DateTime($strParamVal),
-                                new \DateTime($strParamVal . ' 23:59:59'),
+                        foreach ($params as $paramKey => $paramValue) {
+                            $config[$timerKey][$timerSubKey][$paramKey] = array(
+                                new \DateTime($paramValue),
+                                new \DateTime($paramValue . ' 23:59:59'),
                             );
                         }
                     }
                     break;
                 case 'general_holidays':
-                    $arrTmpConf = array();
-                    $strYear    = date('Y');
+                    $tmpConf = array();
+                    $year    = date('Y');
                     // get server's easter date for later calculation
-                    $objEasterDate = new \DateTime(date('Y-m-d', easter_date($strYear)));
+                    $easterDate = new \DateTime(date('Y-m-d', easter_date($year)));
 
-                    foreach ($arrTimer as $params) {
+                    foreach ($timers as $params) {
                         switch ($params['type']) {
                             case 'fix':
-                                $arrTmpConf[$params['name']] = new \DateTime(
-                                    $strYear . '-' . $params['value'][0] . '-' . $params['value'][1]
+                                $tmpConf[$params['name']] = new \DateTime(
+                                    $year . '-' . $params['value'][0] . '-' . $params['value'][1]
                                 );
                                 break;
                             case 'var':
-                                $objEasterDateClone             = clone $objEasterDate;
-                                $arrTmpConf[$params['name']] = $objEasterDateClone->{$params['value'][0]}(
+                                $easterDateClone = clone $easterDate;
+                                $tmpConf[$params['name']] = $easterDateClone->{$params['value'][0]}(
                                     new \DateInterval('P' . $params['value'][1] . 'D')
                                 );
                                 break;
                         }
                     }
-                    $arrConf[$strTimerKey] = $arrTmpConf;
+                    $config[$timerKey] = $tmpConf;
             }
 
         }
 
-        $this->setByArray($arrConf);
+        $this->setByArray($config);
     }
 }

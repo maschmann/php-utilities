@@ -29,31 +29,24 @@ class ConfigEnv extends ConfigAbstract implements ConfigInterface
      * called by parent::__construct()
      *
      * @param  array $param
-     * @return \Asm\Config\ConfigEnv
+     * @return ConfigEnv
      */
     public function init(array $param)
     {
+        if (!empty($param['defaultEnv'])) {
+            $this->defaultEnv = $param['defaultEnv'];
+        }
+
         $this->mergeEnvironments($param);
 
         return $this;
     }
 
     /**
-     * change default env.
-     * default env is the base/blueprint for merging
-     *
-     * @param $env
-     */
-    public function setDefaultEnv($env)
-    {
-        $this->defaultEnv = $env;
-    }
-
-    /**
      * merge environments based on defaults array
      * merge order is prod -> lesser environment
      *
-     * @param $param
+     * @param array $param
      */
     private function mergeEnvironments($param)
     {
@@ -62,7 +55,7 @@ class ConfigEnv extends ConfigAbstract implements ConfigInterface
             $this->readConfig($param['file'])
         );
 
-        if (isset($param['env']) && $this->defaultEnv !== $param['env']) {
+        if (!empty($param['env']) && $this->defaultEnv !== $param['env']) {
             $toMerge = $config->get($param['env'], array());
             $merged = array_replace_recursive(
                 $config->get($this->defaultEnv),

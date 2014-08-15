@@ -56,6 +56,8 @@ final class Config
 
     /**
      * fordbid instantiation
+     *
+     * @codeCoverageIgnore
      */
     private function __construct()
     {
@@ -64,6 +66,8 @@ final class Config
 
     /**
      * forbid cloning
+     *
+     * @codeCoverageIgnore
      */
     private function __clone()
     {
