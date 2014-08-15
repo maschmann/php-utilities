@@ -62,8 +62,16 @@ timers:
     example_timer_config_3:
         day:                [ monday, tuesday, wednesday, thursday ] # works weekdays 00:00:00 - 23:59:59
 
+    example_timer_config_3.1:
+        day:                [ monday, tuesday, wednesday, thursday, friday, saturday, sunday ]
+
     example_timer_config_4:
         day:                [ monday ]                  # works only mondays
+        time:
+            - [ "01:05:00", "17:00:00" ]  # from 01:05:00 to 17:00:00
+
+    example_timer_config_4.1:
+        day:                [ monday, tuesday, wednesday, thursday, friday, saturday, sunday ]
         time:
             - [ "01:05:00", "17:00:00" ]  # from 01:05:00 to 17:00:00
 
@@ -80,15 +88,19 @@ timers:
         holiday:
             use_gerneral:   true                        # if false, uses separate holidays conf
             additional:     [ sub, 1 ]                  # add or subract n days to holiday to create range
-        interval:
-            - [ "16:00:00", "16:00:00" ]  # start and end time
+            interval: [ "16:00:00", "16:00:00" ]  # start and end time
+
+    example_timer_config_7.1:
+        holiday:
+            use_gerneral:   true
+            additional:     [ add, 1 ]
+            interval: [ "16:00:00", "16:00:00" ]  # start and end time
 
     general_shipping_promise:
         holiday:
             use_general:    true
             additional:     [ sub, 1 ]                  # add or subract n days to holiday to create range
-        interval:
-            - [ "16:00:00", "16:00:00" ]  # start and end time
+            interval: [ "16:00:00", "16:00:00" ]  # start and end time
         day:                [ monday, tuesday, wednesday, thursday, friday, sunday  ]
 
     shipping_promise_sunday:

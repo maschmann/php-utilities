@@ -58,10 +58,13 @@ class TimerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_1')));
         $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_2')));
         $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_3')));
+        $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_3.1')));
         $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_4')));
+        $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_4.1')));
         $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_5')));
         $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_6')));
         $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_7')));
+        $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_7.1')));
         $this->assertTrue(is_bool($timer->isTimerActive('general_shipping_promise')));
     }
 
