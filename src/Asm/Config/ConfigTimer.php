@@ -50,7 +50,6 @@ class ConfigTimer extends ConfigAbstract implements ConfigInterface
                         foreach ($params as $paramKey => $paramVal) {
                             switch ($paramKey) {
                                 case 'interval':
-
                                     // check the contents of interval
                                     foreach ($paramVal as $intervalKey => $interval) {
 

@@ -64,7 +64,9 @@ class Timer
         // pre-check holidays
         if (isset($this->currentConf['holiday'])) {
             // check if general holidays are to be used
-            if (true === $this->currentConf['holiday']['use_general']) {
+            if (isset($this->currentConf['holiday']['use_general'])
+                && true === (bool)$this->currentConf['holiday']['use_general']
+            ) {
                 if (false == $this->isHoliday()) {
                     $return = $this->checkDate();
                 }
@@ -84,7 +86,7 @@ class Timer
     /**
      * calculate difference between holiday DateTime objects and current or given time
      *
-     * @param  mixed $date
+     * @param  string|null $date
      * @return bool|\DateTime
      */
     public function isHoliday($date = null)
@@ -95,6 +97,7 @@ class Timer
     /**
      * returns holiday object, if set
      *
+     * @codeCoverageIgnore
      * @return \DateTime|null
      */
     public function getHoliday()
@@ -137,7 +140,7 @@ class Timer
     /**
      * check for holidays
      *
-     * @param  \DateTime|null $date
+     * @param  string|null $date
      * @return bool
      */
     private function checkHoliday($date = null)
@@ -220,6 +223,10 @@ class Timer
         }
 
         foreach ($intervals as $interval) {
+            // this means: just some time
+            if (!is_a($interval[0], 'DateTime') || !is_a($interval[1], 'DateTime')) {
+                $interval = $this->checkTime($intervals);
+            }
 
             $intervalStart = $today->diff($interval[0]);
             $intervalEnd = $today->diff($interval[1]);
@@ -255,31 +262,36 @@ class Timer
     /**
      * do time comparison
      *
+     * @param array $intervals
      * @return bool
      */
-    private function checkTime()
+    private function checkTime($intervals = array())
     {
-        $intervals = array();
+        $return = array();
+        if (empty($intervals)) {
+            $intervals = $this->currentConf['time'];
+        }
 
-        foreach ($this->currentConf['time'] as $intKey => $arrTime) {
+        foreach ($intervals as $intKey => $intervalParts) {
             // build objects for comparison
-            $objStartTime = new \DateTime();
-            $startTime = explode(':', $arrTime[0]);
-            $intervals[$intKey][0] = $objStartTime->setTime(
-                $startTime[0],
-                $startTime[1],
-                $startTime[2]
+            $startTime = new \DateTime();
+            $startTimeParts = explode(':', $intervalParts[0]);
+
+            $return[$intKey][0] = $startTime->setTime(
+                $startTimeParts[0],
+                $startTimeParts[1],
+                $startTimeParts[2]
             );
 
-            $objEndTime = new \DateTime();
-            $endTime = explode(':', $arrTime[1]);
-            $intervals[$intKey][1] = $objEndTime->setTime(
-                $endTime[0],
-                $endTime[1],
-                $endTime[2]
+            $endTime = new \DateTime();
+            $endTimeParts = explode(':', $intervalParts[1]);
+            $return[$intKey][1] = $endTime->setTime(
+                $endTimeParts[0],
+                $endTimeParts[1],
+                $endTimeParts[2]
             );
         }
 
-        return $this->checkIntervals($intervals);
+        return $this->checkIntervals($return);
     }
 }
