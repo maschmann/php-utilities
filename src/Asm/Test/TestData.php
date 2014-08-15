@@ -73,13 +73,13 @@ timers:
         holiday:
             use_gerneral:   true                        # if false, uses holidays conf for shops
             additional:     [ sub, 1 ]                  # add or subract n days to holiday to create range
-            interval:       [ "16:00:00", "16:00:00" ]  # start and end time: if dayrange active, this will be day1_start to day2_stop
+            interval:       [ "16:00:00", "16:00:00" ]  # start and end time
 
     general_shipping_promise:
         holiday:
             use_general:    true
             additional:     [ sub, 1 ]                  # add or subract n days to holiday to create range
-            interval:       [ "16:00:00", "16:00:00" ]  # start and end time: if dayrange active, this will be day1_start to day2_stop
+            interval:       [ "16:00:00", "16:00:00" ]  # start and end time
         day:                [ monday, tuesday, wednesday, thursday, friday, sunday  ]
 
     shipping_promise_sunday:
