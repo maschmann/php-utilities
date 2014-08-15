@@ -75,15 +75,20 @@ timers:
         holiday:
             use_gerneral:   true                        # if false, uses separate holidays conf
             additional:     [ sub, 1 ]                  # add or subract n days to holiday to create range
-            interval:
-                - [ "16:00:00", "16:00:00" ]  # start and end time
+
+    example_timer_config_7:
+        holiday:
+            use_gerneral:   true                        # if false, uses separate holidays conf
+            additional:     [ sub, 1 ]                  # add or subract n days to holiday to create range
+        interval:
+            - [ "16:00:00", "16:00:00" ]  # start and end time
 
     general_shipping_promise:
         holiday:
             use_general:    true
             additional:     [ sub, 1 ]                  # add or subract n days to holiday to create range
-            interval:
-                - [ "16:00:00", "16:00:00" ]  # start and end time
+        interval:
+            - [ "16:00:00", "16:00:00" ]  # start and end time
         day:                [ monday, tuesday, wednesday, thursday, friday, sunday  ]
 
     shipping_promise_sunday:

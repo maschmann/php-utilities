@@ -50,6 +50,7 @@ class TimerTest extends \PHPUnit_Framework_TestCase
      * @covers \Asm\Timer\Timer::checkDays
      * @covers \Asm\Timer\Timer::checkTime
      * @covers \Asm\Timer\Timer::checkHoliday
+     * @covers \Asm\Timer\Timer::flush
      * @param Timer $timer
      */
     public function testIsTimerActive(Timer $timer)
@@ -59,8 +60,9 @@ class TimerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_3')));
         $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_4')));
         $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_5')));
-        //$this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_6')));
-        //$this->assertTrue(is_bool($timer->isTimerActive('general_shipping_promise')));
+        $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_6')));
+        $this->assertTrue(is_bool($timer->isTimerActive('example_timer_config_7')));
+        $this->assertTrue(is_bool($timer->isTimerActive('general_shipping_promise')));
     }
 
     /**
@@ -71,8 +73,8 @@ class TimerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsHoliday(Timer $timer)
     {
-        $this->assertFalse($timer->isHoliday('2014-03-03 00:00:00'));
-        $this->assertTrue($timer->isHoliday('2014-12-24 12:30:01'));
-        $this->assertTrue(is_bool($timer->isHoliday()));
+        $this->assertFalse($timer->isHoliday('2014-03-03 00:00:00'), 'failed to check non-holiday date');
+        $this->assertTrue($timer->isHoliday('2014-12-24 12:30:01'), 'failed to validate christmas');
+        $this->assertTrue(is_bool($timer->isHoliday()), 'failed to validate bool return');
     }
 }
