@@ -80,6 +80,7 @@ class Timer
             $return = $this->checkDate();
         }
 
+        $this->flush();
         return $return;
     }
 
@@ -103,6 +104,15 @@ class Timer
     public function getHoliday()
     {
         return $this->holiday;
+    }
+
+    /**
+     * clear current configuration
+     */
+    public function flush()
+    {
+        $this->currentConf = array();
+        $this->holiday = null;
     }
 
     /**
@@ -223,11 +233,6 @@ class Timer
         }
 
         foreach ($intervals as $interval) {
-            // this means: just some time
-            if (!is_a($interval[0], 'DateTime') || !is_a($interval[1], 'DateTime')) {
-                $interval = $this->checkTime($intervals);
-            }
-
             $intervalStart = $today->diff($interval[0]);
             $intervalEnd = $today->diff($interval[1]);
 

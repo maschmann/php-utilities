@@ -89,7 +89,7 @@ class ConfigTimer extends ConfigAbstract implements ConfigInterface
                     foreach ($timers as $timerSubKey => $params) {
 
                         foreach ($params as $paramKey => $paramValue) {
-                            $config[$timerKey][$timerSubKey][$paramKey] = array(
+                            $config[$timerKey][$timerSubKey] = array(
                                 new \DateTime($paramValue),
                                 new \DateTime($paramValue . ' 23:59:59'),
                             );
