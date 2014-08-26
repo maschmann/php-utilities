@@ -23,5 +23,5 @@
             "": "src/"
         }
     },
-    "target-dir": "Asm/PhpUtilities"
+    "target-dir": "Asm"
 }
