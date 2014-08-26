@@ -9,14 +9,17 @@
  */
 namespace Asm\Config;
 
+use Asm\Data\DataInterface;
+
 /**
  * Interface ConfigInterface
  *
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
+ * @uses Asm\Data\DataInterface
  * @codeCoverageIgnore
  */
-interface ConfigInterface
+interface ConfigInterface extends DataInterface
 {
     /**
      * abstract init
