@@ -10,7 +10,7 @@
 namespace Asm\Config;
 
 /**
- * Class ConfigManager
+ * Class Config
  *
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>

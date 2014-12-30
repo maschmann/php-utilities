@@ -17,7 +17,7 @@ use Asm\Config\ConfigTimer;
  * @package Asm\Timer
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-class Timer
+final class Timer
 {
     /**
      * @var \Asm\Data\Data

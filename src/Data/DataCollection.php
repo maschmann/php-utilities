@@ -15,18 +15,18 @@ namespace Asm\Data;
  * @package Asm\Data
  * @author marc aschmann <maschmann@gmail.com>
  */
-class DataCollection extends Data implements DataInterface, \Iterator
+final class DataCollection extends Data implements DataInterface, \Iterator
 {
 
     /**
      * @var integer
      */
-    protected $position;
+    private $position;
 
     /**
      * @var integer
      */
-    protected $totalCount = 0;
+    private $totalCount = 0;
 
     /**
      * @param array $data

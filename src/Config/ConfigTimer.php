@@ -15,7 +15,7 @@ namespace Asm\Config;
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
  */
-class ConfigTimer extends ConfigAbstract implements ConfigInterface
+final class ConfigTimer extends ConfigAbstract implements ConfigInterface
 {
     /**
      * default method

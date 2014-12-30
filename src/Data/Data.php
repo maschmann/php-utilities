@@ -23,7 +23,7 @@ class Data implements DataInterface
      *
      * @var array
      */
-    protected $data = array();
+    private $data = array();
 
     /**
      * clears the data(!) content of the object

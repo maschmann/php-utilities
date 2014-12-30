@@ -17,12 +17,12 @@ use Asm\Data\Data;
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
  */
-class ConfigEnv extends ConfigAbstract implements ConfigInterface
+final class ConfigEnv extends ConfigAbstract implements ConfigInterface
 {
     /**
      * @var string
      */
-    protected $defaultEnv = 'prod';
+    private $defaultEnv = 'prod';
 
     /**
      * default method

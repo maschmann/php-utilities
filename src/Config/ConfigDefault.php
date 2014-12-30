@@ -15,7 +15,7 @@ namespace Asm\Config;
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
  */
-class ConfigDefault extends ConfigAbstract implements ConfigInterface
+final class ConfigDefault extends ConfigAbstract implements ConfigInterface
 {
     /**
      * default method
