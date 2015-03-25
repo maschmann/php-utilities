@@ -76,8 +76,10 @@ class TimerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsHoliday(Timer $timer)
     {
+    	$currentYear = date('Y');
+
         $this->assertFalse($timer->isHoliday('2014-03-03 00:00:00'), 'failed to check non-holiday date');
-        $this->assertTrue($timer->isHoliday('2014-12-24 12:30:01'), 'failed to validate christmas');
+        $this->assertTrue($timer->isHoliday($currentYear . '-12-24 12:30:01'), 'failed to validate christmas');
         $this->assertTrue(is_bool($timer->isHoliday()), 'failed to validate bool return');
     }
 }
