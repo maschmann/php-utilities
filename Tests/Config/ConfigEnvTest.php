@@ -22,7 +22,6 @@ use Asm\Test\TestData;
 class ConfigEnvTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Asm\Config\ConfigEnv::init
      * @covers \Asm\Config\ConfigEnv::mergeEnvironments
      * @return \Asm\Config\ConfigInterface
      */

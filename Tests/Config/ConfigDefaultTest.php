@@ -22,7 +22,6 @@ use Asm\Test\TestData;
 class ConfigDefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Asm\Config\ConfigDefault::init
      * @covers \Asm\Config\ConfigAbstract::readConfig
      * @covers \Asm\Config\ConfigAbstract::setConfig
      */

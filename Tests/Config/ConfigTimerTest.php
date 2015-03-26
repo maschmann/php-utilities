@@ -15,7 +15,6 @@ use Asm\Test\TestData;
 class ConfigTimerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Asm\Config\ConfigTimer::init
      * @covers \Asm\Config\ConfigTimer::setConfig
      * @return ConfigTimer $config
      * @throws \ErrorException
