@@ -27,10 +27,14 @@ class Data implements DataInterface
 
     /**
      * Clears the data(!) content of the object.
+     *
+     * @return $this
      */
     public function clear()
     {
         $this->data = array();
+
+        return $this;
     }
 
     /**

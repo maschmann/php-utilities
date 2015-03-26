@@ -22,7 +22,7 @@ use Asm\Data\DataInterface;
 interface ConfigInterface extends DataInterface
 {
     /**
-     * add named property to config object
+     * Add named property to config object
      * and insert config as array
      *
      * @param string $name name of property

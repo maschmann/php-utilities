@@ -18,12 +18,15 @@ namespace Asm\Data;
 interface DataInterface
 {
     /**
-     * remove all data from object
+     * Remove all data from internal array.
+     *
+     * @return $this
      */
     public function clear();
 
     /**
-     * generic set method for multidimensional storage
+     * Generic set method for multidimensional storage.
+     *
      * $this->set( $key1, $key2, $key3, ..., $mixVal )
      *
      * @throws \InvalidArgumentException
@@ -32,23 +35,25 @@ interface DataInterface
     public function set();
 
     /**
-     * set list of key/value pairs via one dimensional array
+     * Add array content by iteration to interal array.
      *
-     * @param  array                     $param
+     * @param  array $param
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setByArray(array $param);
 
     /**
-     * adds given object's properties to self
+     * Adds given object's properties to interal array.
      *
-     * @param  object                    $param
+     * @param  object $param
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setByObject($param);
 
     /**
-     * fill datastore by json string
+     * Fill datastore by json string.
      *
      * @param string $json
      * @return mixed
@@ -56,30 +61,32 @@ interface DataInterface
     public function setByJson($json);
 
     /**
-     * multidimensional getter
-     * find a key structure in a multidimensional array and return the value
-     * params are stackable -> get( $k1, $k2, $k3, ... )
+     * Multidimensional getter.
+     *
+     * Find a key structure in a multidimensional array and return the value
+     * params are stackable -> get( $k1, $k2, $k3, ... ).
      *
      * @return bool|mixed
      */
     public function get();
 
     /**
-     * remove key from container
+     * Remove key from internal storage.
      *
      * @param string $key
+     * @return $this
      */
     public function remove($key);
 
     /**
-     * gets key index
+     * Get all firstlevel keys of interal array.
      *
      * @return array keylist
      */
     public function getKeys();
 
     /**
-     * return count of all firstlevel elements
+     * Return count of all firstlevel elements.
      *
      * @return int
      */

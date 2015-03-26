@@ -18,7 +18,7 @@ namespace Asm\Config;
 final class ConfigTimer extends ConfigAbstract implements ConfigInterface
 {
     /**
-     * convert config date strings to \DateTime objects or \DateIntervals
+     * Convert config date strings to \DateTime objects or \DateIntervals.
      *
      * @param string $file config file
      */
@@ -28,20 +28,16 @@ final class ConfigTimer extends ConfigAbstract implements ConfigInterface
 
         // iterate conf and check if there are dates/datetimes/times and so on, for conversion
         foreach ($config as $timerKey => $timers) {
-
             switch ($timerKey) {
                 case 'timers':
                     foreach ($timers as $timerSubKey => $params) {
-
                         foreach ($params as $paramKey => $paramVal) {
                             switch ($paramKey) {
                                 case 'interval':
                                     // check the contents of interval
                                     foreach ($paramVal as $intervalKey => $interval) {
-
                                         // convert all sub elements
                                         foreach ($interval as $key => $intervalValue) {
-
                                             // just a date, no time - one element
                                             switch (count($interval)) {
                                                 case 1:
@@ -59,7 +55,6 @@ final class ConfigTimer extends ConfigAbstract implements ConfigInterface
                                                         $data;
                                                     break;
                                             }
-
                                         }
                                     }
                                     break;
@@ -67,13 +62,10 @@ final class ConfigTimer extends ConfigAbstract implements ConfigInterface
                                     break;
                             }
                         }
-
                     }
-
                     break;
                 case 'holidays':
                     foreach ($timers as $timerSubKey => $params) {
-
                         foreach ($params as $paramKey => $paramValue) {
                             $config[$timerKey][$timerSubKey] = array(
                                 new \DateTime($paramValue),
