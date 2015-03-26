@@ -24,16 +24,11 @@ final class DataCollection extends Data implements DataInterface, \Iterator
     private $position;
 
     /**
-     * @var integer
-     */
-    private $totalCount = 0;
-
-    /**
      * @param array $data
      */
     public function __construct($data = null)
     {
-        if (null != $data && is_array($data)) {
+        if (null !== $data && is_array($data)) {
             $this->set('items', $data);
         }
 
@@ -105,7 +100,7 @@ final class DataCollection extends Data implements DataInterface, \Iterator
      */
     public function addItem($item, $position = null)
     {
-        if (null == $position) {
+        if (null === $position) {
             $items = $this->get('items', array());
             array_push($items, $item);
             $this->set('items', $items);
