@@ -17,17 +17,4 @@ namespace Asm\Config;
  */
 final class ConfigDefault extends ConfigAbstract implements ConfigInterface
 {
-    /**
-     * default method
-     * called by parent::__construct()
-     *
-     * @param  array $param
-     * @return \Asm\Config\ConfigDefault
-     */
-    public function init(array $param)
-    {
-        $this->setConfig($param['file']);
-
-        return $this;
-    }
 }

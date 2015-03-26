@@ -25,21 +25,21 @@ final class ConfigEnv extends ConfigAbstract implements ConfigInterface
     private $defaultEnv = 'prod';
 
     /**
-     * default method
-     * called by parent::__construct()
+     * default constructor
      *
-     * @param  array $param
-     * @return ConfigEnv
+     * @param array $param
      */
-    public function init(array $param)
+    public function __construct(array $param)
     {
+        if (isset($param['filecheck'])) {
+            $this->filecheck = (bool)$param['filecheck'];
+        }
+
         if (!empty($param['defaultEnv'])) {
             $this->defaultEnv = $param['defaultEnv'];
         }
 
         $this->mergeEnvironments($param);
-
-        return $this;
     }
 
     /**

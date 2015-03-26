@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the <package> package.
+ * This file is part of the php-utilities package.
  *
  * (c) Marc Aschmann <maschmann@gmail.com>
  *
@@ -30,7 +30,6 @@ abstract class ConfigAbstract extends Data
 
     /**
      * default constructor
-     * calls child's init() method
      *
      * @param array $param
      */
@@ -40,18 +39,8 @@ abstract class ConfigAbstract extends Data
             $this->filecheck = (bool)$param['filecheck'];
         }
 
-        // default init of child class
-        $this->init($param);
+        $this->setConfig($param['file']);
     }
-
-    /**
-     * abstract init
-     * behaves like an interface and enforces implementation in child class
-     *
-     * @abstract
-     * @param array $param
-     */
-    abstract public function init(array $param);
 
     /**
      * add named property to config object

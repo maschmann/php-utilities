@@ -18,20 +18,6 @@ namespace Asm\Config;
 final class ConfigTimer extends ConfigAbstract implements ConfigInterface
 {
     /**
-     * default method
-     * called by parent::__construct()
-     *
-     * @param  array $param
-     * @return ConfigTimer
-     */
-    public function init(array $param)
-    {
-        $this->setConfig($param['file']);
-
-        return $this;
-    }
-
-    /**
      * convert config date strings to \DateTime objects or \DateIntervals
      *
      * @param string $file config file

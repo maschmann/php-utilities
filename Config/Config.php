@@ -61,7 +61,6 @@ final class Config
      */
     private function __construct()
     {
-
     }
 
     /**
@@ -71,6 +70,5 @@ final class Config
      */
     private function __clone()
     {
-
     }
 }

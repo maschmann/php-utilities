@@ -22,14 +22,6 @@ use Asm\Data\DataInterface;
 interface ConfigInterface extends DataInterface
 {
     /**
-     * abstract init
-     * behaves like an interface and enforces implementation in child class
-     *
-     * @param array $param
-     */
-    public function init(array $param);
-
-    /**
      * add named property to config object
      * and insert config as array
      *
