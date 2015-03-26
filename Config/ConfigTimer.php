@@ -24,6 +24,7 @@ final class ConfigTimer extends ConfigAbstract implements ConfigInterface
      */
     public function setConfig($file)
     {
+        /** @var array $config */
         $config = $this->readConfig($file);
 
         // iterate conf and check if there are dates/datetimes/times and so on, for conversion
