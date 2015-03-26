@@ -19,14 +19,14 @@ class Data implements DataInterface
 {
 
     /**
-     * internal data storage
+     * Internal data storage.
      *
      * @var array
      */
     private $data = array();
 
     /**
-     * clears the data(!) content of the object
+     * Clears the data(!) content of the object.
      */
     public function clear()
     {
@@ -34,7 +34,8 @@ class Data implements DataInterface
     }
 
     /**
-     * generic set method for multidimensional storage
+     * Generic set method for multidimensional storage.
+     *
      * $this->set( $key1, $key2, $key3, ..., $val )
      *
      * @throws \InvalidArgumentException
@@ -62,7 +63,7 @@ class Data implements DataInterface
             $this->data = array_replace_recursive($this->data, $replace);
         } else {
             throw new \InvalidArgumentException(
-                '--  ( ' . __FILE__ . ' ) ( ' . __LINE__ . ' ) -- Not enough Parameters, need at least key + val'
+                'Data::set() - Not enough Parameters, need at least key + val'
             );
         }
 
@@ -70,7 +71,7 @@ class Data implements DataInterface
     }
 
     /**
-     * set list of key/value pairs via one dimensional array
+     * Set list of key/value pairs via one dimensional array.
      *
      * @param  array $param
      * @return $this
@@ -85,7 +86,7 @@ class Data implements DataInterface
             }
         } else {
             throw new \InvalidArgumentException(
-                '--  ( ' . __FILE__ . ' ) ( ' . __LINE__ . ' ) -- $param is empty!'
+                'Data::setByArray() - $param is empty!'
             );
         }
 
@@ -93,7 +94,7 @@ class Data implements DataInterface
     }
 
     /**
-     * adds given object's properties to self
+     * Adds given object's properties to self.
      *
      * @param  object $param
      * @return $this
@@ -114,14 +115,16 @@ class Data implements DataInterface
                 }
             }
         } else {
-            throw new \InvalidArgumentException('--  ( ' . __FILE__ . ' ) ( ' . __LINE__ . ' ) -- param is no object!');
+            throw new \InvalidArgumentException(
+                'Data::setByObject() - param is no object!'
+            );
         }
 
         return $this;
     }
 
     /**
-     * fill datastore from json string
+     * Fill datastore from json string.
      *
      * @param string $json
      * @return $this|mixed
@@ -136,42 +139,23 @@ class Data implements DataInterface
     }
 
     /**
-     * multidimensional getter
-     * find a key structure in a multidimensional array and return the value
-     * params are stackable -> get( $k1, $k2, $k3, ... )
+     * Multidimensional getter.
+     *
+     * Find a key structure in a multidimensional array and return the value
+     * params are stackable -> get( $k1, $k2, $k3, ... ).
      *
      * @return bool|mixed
      */
     public function get()
     {
-        $data = $this->data;
-        $default = false;
-        $args = func_get_args();
-
-        // check for default return value
-        if (1 < count($args)) {
-            $lastElm = array_pop($args);
-            if (empty($lastElm) && !is_numeric($lastElm)) {
-                $default = $lastElm;
-            } else {
-                // push the last element back into array
-                array_push($args, $lastElm);
-            }
-        }
-
-        foreach ($args as $key) {
-            if (array_key_exists($key, $data)) {
-                $data = $data[$key];
-            } else {
-                return $default;
-            }
-        }
-
-        return $data;
+        return self::searchArray(
+            func_get_args(),
+            $this->data
+        );
     }
 
     /**
-     * gets key index
+     * Return all keys of internal array's first level.
      *
      * @return array keylist
      */
@@ -181,7 +165,7 @@ class Data implements DataInterface
     }
 
     /**
-     * remove key from container
+     * Remove key from container.
      *
      * @param  string $key
      * @return $this
@@ -196,7 +180,7 @@ class Data implements DataInterface
     }
 
     /**
-     * return stored data array
+     * Return stored data array.
      *
      * @return array
      */
@@ -206,6 +190,8 @@ class Data implements DataInterface
     }
 
     /**
+     * Convert internal data to json.
+     *
      * @return string
      */
     public function toJson()
@@ -215,7 +201,7 @@ class Data implements DataInterface
 
 
     /**
-     * return count of all firstlevel elements
+     * Return count of all firstlevel elements.
      *
      * @return int
      */
@@ -225,7 +211,8 @@ class Data implements DataInterface
     }
 
     /**
-     * find a key in an array
+     * Find a key in an array.
+     *
      * example Data::findInArray(array(), key1, key2, key3, ..., default_return)
      *
      * @return array|bool|mixed
@@ -234,8 +221,35 @@ class Data implements DataInterface
     {
         $args = func_get_args();
         $data = array_shift($args);
-        $default = false;
 
+        return self::searchArray(
+            $args,
+            $data
+        );
+    }
+
+    /**
+     * Normalize a key.
+     *
+     * @param  string $key
+     * @return string
+     */
+    public static function normalize($key)
+    {
+        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $key))));
+    }
+
+    /**
+     * Search an array for keys (args) and provide a default value if
+     * last arg is some kind of empty or not numeric.
+     *
+     * @param array $args
+     * @param array $data
+     * @param bool $default
+     * @return array|mixed
+     */
+    private static function searchArray(array $args, array $data, $default = false)
+    {
         // check for default return value
         if (1 < count($args)) {
             $lastElm = array_pop($args);
@@ -251,21 +265,11 @@ class Data implements DataInterface
             if (array_key_exists($key, $data)) {
                 $data = $data[$key];
             } else {
-                return $default;
+                $data = $default;
+                break;
             }
         }
 
         return $data;
-    }
-
-    /**
-     * normalize a key
-     *
-     * @param  string $key
-     * @return string
-     */
-    public static function normalize($key)
-    {
-        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $key))));
     }
 }
