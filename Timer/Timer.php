@@ -88,7 +88,7 @@ final class Timer
      * calculate difference between holiday DateTime objects and current or given time
      *
      * @param  string|null $date
-     * @return bool|\DateTime
+     * @return boolean
      */
     public function isHoliday($date = null)
     {

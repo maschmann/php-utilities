@@ -66,7 +66,7 @@ final class DataCollection extends Data implements DataInterface, \Iterator
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
+     * @return integer scalar on success, or null on failure.
      */
     public function key()
     {
