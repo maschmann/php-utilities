@@ -25,7 +25,7 @@ final class ConfigEnv extends ConfigAbstract implements ConfigInterface
     private $defaultEnv = 'prod';
 
     /**
-     * default constructor
+     * Default constructor.
      *
      * @param array $param
      */
@@ -43,8 +43,9 @@ final class ConfigEnv extends ConfigAbstract implements ConfigInterface
     }
 
     /**
-     * merge environments based on defaults array
-     * merge order is prod -> lesser environment
+     * Merge environments based on defaults array.
+     *
+     * Merge order is prod -> lesser environment.
      *
      * @param array $param
      */

@@ -27,7 +27,7 @@ final class Config
     );
 
     /**
-     * get object of specific class
+     * Get object of specific class.
      *
      * @param  array $param config file name
      * @param  string $class name of class without
@@ -45,17 +45,22 @@ final class Config
 
             // allow config names without ending
             if (empty($param['file'])) {
-                throw new \InvalidArgumentException('config filename missing in param array!');
+                throw new \InvalidArgumentException(
+                    'Config::factory() - config filename missing in param array!'
+                );
             }
 
             return new $class($param);
         } else {
-            throw new \ErrorException('could not instantiate ' . $class . ' - not in self::$whitelist');
+            throw new \ErrorException(
+                'Config::factory() - could not instantiate ' .
+                $class . ' - not in self::$whitelist'
+            );
         }
     }
 
     /**
-     * fordbid instantiation
+     * Fordbid instantiation.
      *
      * @codeCoverageIgnore
      */
@@ -64,7 +69,7 @@ final class Config
     }
 
     /**
-     * forbid cloning
+     * Forbid cloning.
      *
      * @codeCoverageIgnore
      */

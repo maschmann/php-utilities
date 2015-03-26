@@ -81,6 +81,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      *
      * @depends testSet
      * @covers  \Asm\Data\Data::get
+     * @covers  \Asm\Data\Data::searchArray
      * @param  Data $data
      * @return Data
      */
@@ -160,13 +161,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testConstruct
-     * @covers \Asm\Data\Data::setByObject
+     * @covers  \Asm\Data\Data::setByObject
      * @param  Data $data
      * @return Data
      */
     public function testSetByObject(Data $data)
     {
-        $objParam = new \stdClass();
+        $objParam                = new \stdClass();
         $objParam->testProperty1 = 'test_property_value_1';
         $objParam->testProperty2 = 'test_property_value_2';
         $objParam->testProperty3 = array('subkeyPropertyTest' => 'property_value');
@@ -202,7 +203,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testConstruct
-     * @covers \Asm\Data\Data::setByJson
+     * @covers  \Asm\Data\Data::setByJson
      * @param  Data $data
      * @return Data
      */
@@ -227,7 +228,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testSetByArray
-     * @covers \Asm\Data\Data::getKeys
+     * @covers  \Asm\Data\Data::getKeys
      * @param  Data $data
      */
     public function testGetKeys(Data $data)
@@ -239,7 +240,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testSetByArray
-     * @covers \Asm\Data\Data::remove
+     * @covers  \Asm\Data\Data::remove
      * @param  Data $data
      */
     public function testRemove(Data $data)
@@ -252,7 +253,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testSetByArray
-     * @covers \Asm\Data\Data::toArray
+     * @covers  \Asm\Data\Data::toArray
      * @param  Data $data
      */
     public function testToArray(Data $data)
@@ -263,7 +264,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testSetByArray
-     * @covers \Asm\Data\Data::toJson
+     * @covers  \Asm\Data\Data::toJson
      * @param  Data $data
      */
     public function testToJson(Data $data)
@@ -276,7 +277,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testSetByArray
-     * @covers \Asm\Data\Data::count
+     * @covers  \Asm\Data\Data::count
      * @param  Data $data
      */
     public function testCount(Data $data)
@@ -287,7 +288,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testSetByArray
-     * @covers \Asm\Data\Data::findInArray
+     * @covers  \Asm\Data\Data::findInArray
+     * @covers  \Asm\Data\Data::searchArray
      * @param  Data $data
      */
     public function testFindInArray(Data $data)
@@ -310,9 +312,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testSetByArray
-     * @covers \Asm\Data\Data::setByArray
-     * @covers \Asm\Data\Data::clear
-     * @covers \Asm\Data\Data::toArray
+     * @covers  \Asm\Data\Data::setByArray
+     * @covers  \Asm\Data\Data::clear
+     * @covers  \Asm\Data\Data::toArray
      * @param Data $data
      */
     public function testClear(Data $data)

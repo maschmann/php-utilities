@@ -23,7 +23,7 @@ interface ConfigInterface extends DataInterface
 {
     /**
      * Add named property to config object
-     * and insert config as array
+     * and insert config as array.
      *
      * @param string $name name of property
      * @param string $file string $file absolute filepath/filename.ending
@@ -31,14 +31,14 @@ interface ConfigInterface extends DataInterface
     public function addconfig($name, $file);
 
     /**
-     * add config to data storage
+     * Add config to data storage.
      *
      * @param string $file absolute filepath/filename.ending
      */
     public function setConfig($file);
 
     /**
-     * read config file via YAML parser
+     * Read config file via YAML parser.
      *
      * @param string $file absolute filepath/filename.ending
      * @return array  config array

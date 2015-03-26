@@ -29,7 +29,7 @@ abstract class ConfigAbstract extends Data
     protected $filecheck = true;
 
     /**
-     * default constructor
+     * Default constructor.
      *
      * @param array $param
      */
@@ -43,8 +43,8 @@ abstract class ConfigAbstract extends Data
     }
 
     /**
-     * add named property to config object
-     * and insert config as array
+     * Add named property to config object
+     * and insert config as array.
      *
      * @param string $name name of property
      * @param string $file string $file absolute filepath/filename.ending
@@ -55,22 +55,24 @@ abstract class ConfigAbstract extends Data
     }
 
     /**
-     * read config file via YAML parser
+     * Read config file via YAML parser.
      *
      * @param  string $file absolute filepath/filename.ending
-     * @return array  config array
+     * @return array config array
      */
     public function readConfig($file)
     {
         if ($this->filecheck && !is_file($file)) {
-            throw new \InvalidArgumentException('Given config file ' . $file . ' does not exist!');
+            throw new \InvalidArgumentException(
+                'Config::Abstract() - Given config file ' . $file . ' does not exist!'
+            );
         }
 
         return Yaml::parse($file);
     }
 
     /**
-     * add config to data storage
+     * Add config to data storage.
      *
      * @param string $file absolute filepath/filename.ending
      */
