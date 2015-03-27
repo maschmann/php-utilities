@@ -170,7 +170,7 @@ final class Timer
             $startTime = array('00', '00', '00');
             $endTime = array('23', '59', '59');
 
-            if (isset($this->currentConf['holiday']['interval'])) {
+            if (true === isset($this->currentConf['holiday']['interval'])) {
                 $startTime = explode(':', $this->currentConf['holiday']['interval'][0]);
                 $endTime = explode(':', $this->currentConf['holiday']['interval'][1]);
             }

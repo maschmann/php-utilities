@@ -68,7 +68,7 @@ abstract class ConfigAbstract extends Data
             );
         }
 
-        return Yaml::parse($file);
+        return (array)Yaml::parse($file);
     }
 
     /**
