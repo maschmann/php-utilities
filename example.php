@@ -16,13 +16,13 @@ use Asm\Test\TestData;
 
 $data = new Data\Data();
 $data->setByArray(
-    array(
+    [
         'test_1' => 'somevalue',
-        'test_2' => array(
+        'test_2' => [
             'subtest_1' => 'more_value',
             'subtest_3' => 25,
-        ),
-    )
+        ],
+    ]
 );
 
 echo print_r($data, true) . "\n";
@@ -30,10 +30,10 @@ echo print_r($data, true) . "\n";
 
 // default config
 $config = Config\Config::factory(
-    array(
+    [
         'file' => TestData::getYamlConfigFile(),
         'filecheck' => false,
-    ),
+    ],
     'ConfigDefault'
 );
 
@@ -41,10 +41,10 @@ echo print_r($config, true) . "\n";
 
 // merged environments config
 $config = Config\Config::factory(
-    array(
+    [
         'file' => TestData::getYamlConfigFile(),
         'filecheck' => false,
-    ),
+    ],
     'ConfigEnv'
 );
 
@@ -52,11 +52,11 @@ echo print_r($config, true) . "\n";
 
 // merged environments config using dev
 $config = Config\Config::factory(
-    array(
+    [
         'file' => TestData::getYamlConfigFile(),
         'filecheck' => false,
         'env' => 'dev',
-    ),
+    ],
     'ConfigEnv'
 );
 
@@ -64,10 +64,10 @@ echo print_r($config, true) . "\n";
 
 // timer config
 $config = Config\Config::factory(
-    array(
+    [
         'file' => TestData::getYamlTimerConfigFile(),
         'filecheck' => false,
-    ),
+    ],
     'ConfigTimer'
 );
 

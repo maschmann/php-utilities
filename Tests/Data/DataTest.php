@@ -56,8 +56,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test_value3', $data->get('test_key_1', 'test_key_2'), 'multidim key get');
 
         // test initial setting of value
-        $data->set('test_key_4', array('test_key_3' => 'testValue4'));
-        $data->set('test_key_5', array('test_key_4' => 'testValue5'));
+        $data->set('test_key_4', ['test_key_3' => 'testValue4']);
+        $data->set('test_key_5', ['test_key_4' => 'testValue5']);
 
         $this->assertEquals('testValue4', $data->get('test_key_4', 'test_key_3'), 'merge arrays on set');
         $this->assertEquals('testValue5', $data->get('test_key_5', 'test_key_4'), 'merge arrays on set');
@@ -93,12 +93,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $data->set(
             'testKey2',
-            array(
+            [
                 'test'     => 'test_value',
-                'sub_test' => array(
+                'sub_test' => [
                     'subsubtest' => 'subvalue',
-                )
-            )
+                ]
+            ]
         );
 
         // single dimension array getter
@@ -133,12 +133,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testSetByArray(Data $data)
     {
         $data->setByArray(
-            array(
+            [
                 'testKey3' => 'test_value_3',
                 'testKey4' => 'test_value_4',
-                'testKey5' => array('subKey1' => 'sub_val_1'),
+                'testKey5' => ['subKey1' => 'sub_val_1'],
                 'testKey6' => new \stdClass(),
-            )
+            ]
         );
 
         $this->assertEquals('test_value_3', $data->get('testKey3'));
@@ -156,7 +156,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetByArrayException(Data $data)
     {
-        $data->setByArray(array());
+        $data->setByArray([]);
     }
 
     /**
@@ -170,7 +170,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $objParam                = new \stdClass();
         $objParam->testProperty1 = 'test_property_value_1';
         $objParam->testProperty2 = 'test_property_value_2';
-        $objParam->testProperty3 = array('subkeyPropertyTest' => 'property_value');
+        $objParam->testProperty3 = ['subkeyPropertyTest' => 'property_value'];
         $objParam->testProperty4 = new \stdClass();
 
         $data->setByObject($objParam);
@@ -211,11 +211,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $data->setByJson(
             json_encode(
-                array(
+                [
                     'testKey3' => 'test_value_3',
                     'testKey4' => 'test_value_4',
-                    'testKey5' => array('subKey1' => 'sub_val_1'),
-                )
+                    'testKey5' => ['subKey1' => 'sub_val_1'],
+                ]
             )
         );
 

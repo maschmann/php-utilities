@@ -101,7 +101,7 @@ final class DataCollection extends Data implements DataInterface, \Iterator
     public function addItem($item, $position = null)
     {
         if (null === $position) {
-            $items = $this->get('items', array());
+            $items = $this->get('items', []);
             array_push($items, $item);
             $this->set('items', $items);
         } else {
@@ -127,7 +127,7 @@ final class DataCollection extends Data implements DataInterface, \Iterator
      */
     public function count()
     {
-        return count($this->get('items', array()));
+        return count($this->get('items', []));
     }
 
     /**
@@ -139,7 +139,7 @@ final class DataCollection extends Data implements DataInterface, \Iterator
      */
     public function removeItem($position)
     {
-        $items = $this->get('items', array());
+        $items = $this->get('items', []);
 
         if (isset($items[$position])) {
             unset($items[$position]);

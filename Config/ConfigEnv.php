@@ -57,7 +57,7 @@ final class ConfigEnv extends ConfigAbstract implements ConfigInterface
         );
 
         if (!empty($param['env']) && $this->defaultEnv !== $param['env']) {
-            $toMerge = $config->get($param['env'], array());
+            $toMerge = $config->get($param['env'], []);
             $merged = array_replace_recursive(
                 $config->get($this->defaultEnv),
                 $toMerge

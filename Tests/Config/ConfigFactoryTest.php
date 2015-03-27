@@ -26,10 +26,10 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase
     public function testFactory()
     {
         $config = Config::factory(
-            array(
+            [
                 'file' => TestData::getYamlConfigFile(),
                 'filecheck' => false,
-            ),
+            ],
             'ConfigDefault'
         );
 
@@ -43,10 +43,10 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase
     public function testFactoryErrorException()
     {
         $config = Config::factory(
-            array(
+            [
                 'file' => TestData::getYamlConfigFile(),
                 'filecheck' => false,
-            ),
+            ],
             'ConfigXXX'
         );
     }
@@ -58,7 +58,7 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase
     public function testFactoryInvalidArgumentException()
     {
         $config = Config::factory(
-            array(),
+            [],
             'ConfigDefault'
         );
     }

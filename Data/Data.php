@@ -23,7 +23,7 @@ class Data implements DataInterface
      *
      * @var array
      */
-    private $data = array();
+    private $data = [];
 
     /**
      * Clears the data(!) content of the object.
@@ -32,7 +32,7 @@ class Data implements DataInterface
      */
     public function clear()
     {
-        $this->data = array();
+        $this->data = [];
 
         return $this;
     }
@@ -57,9 +57,9 @@ class Data implements DataInterface
             // iterate arguments reversed to build replacement array
             foreach (array_reverse($args) as $key) {
                 if (null == $replace) {
-                    $replace = array($key => $val);
+                    $replace = [$key => $val];
                 } else {
-                    $replace = array($key => $replace);
+                    $replace = [$key => $replace];
                 }
             }
 

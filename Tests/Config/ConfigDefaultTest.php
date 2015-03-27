@@ -28,10 +28,10 @@ class ConfigDefaultTest extends \PHPUnit_Framework_TestCase
     public function testFactory()
     {
         $config = Config::factory(
-            array(
+            [
                 'file' => TestData::getYamlConfigFile(),
                 'filecheck' => false,
-            ),
+            ],
             'ConfigDefault'
         );
 

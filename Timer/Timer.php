@@ -111,7 +111,7 @@ final class Timer
      */
     public function flush()
     {
-        $this->currentConf = array();
+        $this->currentConf = [];
         $this->holiday = null;
     }
 
@@ -163,8 +163,8 @@ final class Timer
             // clone for start/enddate
             $holidayEnd = clone $holiday;
             $holidayStart = clone $holiday;
-            $startTime = array('00', '00', '00');
-            $endTime = array('23', '59', '59');
+            $startTime = ['00', '00', '00'];
+            $endTime = ['23', '59', '59'];
 
             if (true === isset($this->currentConf['holiday']['interval'])) {
                 $startTime = explode(':', $this->currentConf['holiday']['interval'][0]);
@@ -213,7 +213,7 @@ final class Timer
      * @param  array $intervals
      * @return bool
      */
-    private function checkIntervals(array $intervals = array())
+    private function checkIntervals(array $intervals = [])
     {
         $today = new \DateTime();
         $return = false;
@@ -258,9 +258,9 @@ final class Timer
      * @param array $intervals
      * @return bool
      */
-    private function checkTime($intervals = array())
+    private function checkTime($intervals = [])
     {
-        $return = array();
+        $return = [];
         if (empty($intervals)) {
             $intervals = $this->currentConf['time'];
         }

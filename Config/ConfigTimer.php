@@ -68,15 +68,15 @@ final class ConfigTimer extends ConfigAbstract implements ConfigInterface
                 case 'holidays':
                     foreach ($timers as $timerSubKey => $params) {
                         foreach ($params as $paramKey => $paramValue) {
-                            $config[$timerKey][$timerSubKey] = array(
+                            $config[$timerKey][$timerSubKey] = [
                                 new \DateTime($paramValue),
                                 new \DateTime($paramValue . ' 23:59:59'),
-                            );
+                            ];
                         }
                     }
                     break;
                 case 'general_holidays':
-                    $tmpConf = array();
+                    $tmpConf = [];
                     $year    = date('Y');
                     // get server's easter date for later calculation
                     $easterDate = new \DateTime(date('Y-m-d', easter_date($year)));

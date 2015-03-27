@@ -20,11 +20,11 @@ final class Config
     /**
      * @var array
      */
-    private static $whitelist = array(
+    private static $whitelist = [
         'ConfigDefault',
         'ConfigEnv',
         'ConfigTimer',
-    );
+    ];
 
     /**
      * Get object of specific class.

@@ -31,7 +31,7 @@ class DataCollectionTest extends \PHPUnit_Framework_TestCase
         $item = new \stdClass();
         $item->name = 'number_one';
 
-        $collection = new DataCollection(array($item));
+        $collection = new DataCollection([$item]);
         $this->assertInstanceOf('\Asm\Data\DataCollection', $collection);
 
         $this->assertEquals('number_one', $collection->getItem(0)->name);

@@ -30,10 +30,10 @@ class ConfigEnvTest extends \PHPUnit_Framework_TestCase
     {
         // merged environments config
         $config = Config::factory(
-            array(
+            [
                 'file' => TestData::getYamlConfigFile(),
                 'filecheck' => false,
-            ),
+            ],
             'ConfigEnv'
         );
 
@@ -49,12 +49,12 @@ class ConfigEnvTest extends \PHPUnit_Framework_TestCase
     public function testFactoryEnv()
     {
         $config = Config::factory(
-            array(
+            [
                 'file' => TestData::getYamlConfigFile(),
                 'filecheck' => false,
                 'defaultEnv' => 'prod',
                 'env' => 'dev',
-            ),
+            ],
             'ConfigEnv'
         );
 

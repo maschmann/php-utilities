@@ -22,10 +22,10 @@ class ConfigTimerTest extends \PHPUnit_Framework_TestCase
     public function testFactory()
     {
         $config = Config::factory(
-            array(
+            [
                 'file' => TestData::getYamlTimerConfigFile(),
                 'filecheck' => false,
-            ),
+            ],
             'ConfigTimer'
         );
 
