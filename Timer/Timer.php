@@ -227,9 +227,7 @@ final class Timer
             $intervalEnd = $today->diff($interval[1]);
 
             // check if current date has passed start but not endtime
-            if ((1 == $intervalStart->invert)
-                && (0 == $intervalEnd->invert)
-            ) {
+            if ((1 == $intervalStart->invert) && (0 == $intervalEnd->invert)) {
                 $return = true;
                 break;
             }

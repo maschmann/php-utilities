@@ -47,12 +47,15 @@ EOT;
      */
     public static function getYamlTimerConfigFile()
     {
+        $today = new \DateTime();
+        $tomorrow = new \DateTime('tomorrow');
+
         return <<<EOT
 timers:
     example_timer_config_1:
         interval:
             -               [ "2013-02-06" ] # 00:00:00 - 23:59:59
-            -               [ "2013-04-24 00:00:01", "2013-04-28 23:59:59" ]
+            -               [ "{$today->format('Y-m-d H:i:s')}", "{$tomorrow->format('Y-m-d H:i:s')}" ]
 
     example_timer_config_2:
         interval:
