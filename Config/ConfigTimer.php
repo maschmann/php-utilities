@@ -98,7 +98,6 @@ final class ConfigTimer extends ConfigAbstract implements ConfigInterface
                     }
                     $config[$timerKey] = $tmpConf;
             }
-
         }
 
         $this->setByArray($config);

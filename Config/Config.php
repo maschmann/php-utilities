@@ -45,16 +45,13 @@ final class Config
 
             // allow config names without ending
             if (empty($param['file'])) {
-                throw new \InvalidArgumentException(
-                    'Config::factory() - config filename missing in param array!'
-                );
+                throw new \InvalidArgumentException('Config::factory() - config filename missing in param array!');
             }
 
             return new $class($param);
         } else {
             throw new \ErrorException(
-                'Config::factory() - could not instantiate ' .
-                $class . ' - not in self::$whitelist'
+                'Config::factory() - could not instantiate ' . $class . ' - not in self::$whitelist'
             );
         }
     }

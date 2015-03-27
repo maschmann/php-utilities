@@ -15,6 +15,7 @@ use Asm\Timer\Timer;
 
 /**
  * Class TimerTest
+ *
  * @package Asm\Tests\Timer
  * @author marc aschmann <maschmann@gmail.com>
  */
@@ -29,7 +30,7 @@ class TimerTest extends \PHPUnit_Framework_TestCase
     {
         $config = Config::factory(
             array(
-                'file' => TestData::getYamlTimerConfigFile(),
+                'file'      => TestData::getYamlTimerConfigFile(),
                 'filecheck' => false,
             ),
             'ConfigTimer'
@@ -44,13 +45,13 @@ class TimerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testConstruct
-     * @covers \Asm\Timer\Timer::isTimerActive
-     * @covers \Asm\Timer\Timer::checkDate
-     * @covers \Asm\Timer\Timer::checkIntervals
-     * @covers \Asm\Timer\Timer::checkDays
-     * @covers \Asm\Timer\Timer::checkTime
-     * @covers \Asm\Timer\Timer::checkHoliday
-     * @covers \Asm\Timer\Timer::flush
+     * @covers  \Asm\Timer\Timer::isTimerActive
+     * @covers  \Asm\Timer\Timer::checkDate
+     * @covers  \Asm\Timer\Timer::checkIntervals
+     * @covers  \Asm\Timer\Timer::checkDays
+     * @covers  \Asm\Timer\Timer::checkTime
+     * @covers  \Asm\Timer\Timer::checkHoliday
+     * @covers  \Asm\Timer\Timer::flush
      * @param Timer $timer
      */
     public function testIsTimerActive(Timer $timer)
@@ -70,16 +71,19 @@ class TimerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testConstruct
-     * @covers \Asm\Timer\Timer::isHoliday
-     * @covers \Asm\Timer\Timer::checkHoliday
+     * @covers  \Asm\Timer\Timer::isHoliday
+     * @covers  \Asm\Timer\Timer::getHoliday
+     * @covers  \Asm\Timer\Timer::checkHoliday
      * @param Timer $timer
      */
     public function testIsHoliday(Timer $timer)
     {
-    	$currentYear = date('Y');
+        $currentYear = date('Y');
 
         $this->assertFalse($timer->isHoliday('2014-03-03 00:00:00'), 'failed to check non-holiday date');
         $this->assertTrue($timer->isHoliday($currentYear . '-12-24 12:30:01'), 'failed to validate christmas');
+        $this->assertNotEmpty($timer->getHoliday());
+
         $this->assertTrue(is_bool($timer->isHoliday()), 'failed to validate bool return');
     }
 }

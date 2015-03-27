@@ -22,24 +22,24 @@ final class Timer
     /**
      * @var \Asm\Data\Data
      */
-    private $config = null;
+    private $config;
 
     /**
-     * current timer's config
+     * Current timer's config.
      *
-     * @var array
+     * @var mixed
      */
-    private $currentConf = array();
+    private $currentConf;
 
     /**
-     * if a holiday is in place - here it is
+     * If a holiday is in place - here it is.
      *
      * @var null|\DateTime
      */
-    private $holiday = null;
+    private $holiday;
 
     /**
-     * constructor with dependency injection
+     * Constructor with dependency injection.
      *
      * @param ConfigTimer $config
      */
@@ -51,7 +51,7 @@ final class Timer
     }
 
     /**
-     * check if timer is active
+     * Check if timer is active.
      *
      * @param  string $type
      * @return boolean
@@ -62,7 +62,7 @@ final class Timer
         $this->currentConf = $this->config->get('timers', $type);
 
         // pre-check holidays
-        if (isset($this->currentConf['holiday'])) {
+        if (true === isset($this->currentConf['holiday'])) {
             // check if general holidays are to be used
             if (isset($this->currentConf['holiday']['use_general'])
                 && true === (bool)$this->currentConf['holiday']['use_general']
@@ -85,7 +85,7 @@ final class Timer
     }
 
     /**
-     * calculate difference between holiday DateTime objects and current or given time
+     * Calculate difference between holiday DateTime objects and current or given time.
      *
      * @param  string|null $date
      * @return boolean
@@ -96,7 +96,7 @@ final class Timer
     }
 
     /**
-     * returns holiday object, if set
+     * Returns holiday object, if set.
      *
      * @codeCoverageIgnore
      * @return \DateTime|null
@@ -107,7 +107,7 @@ final class Timer
     }
 
     /**
-     * clear current configuration
+     * Clear current configuration.
      */
     public function flush()
     {
@@ -116,7 +116,7 @@ final class Timer
     }
 
     /**
-     * date checks on config
+     * Date checks on config.
      *
      * @return bool
      */
@@ -148,7 +148,7 @@ final class Timer
     }
 
     /**
-     * check for holidays
+     * Check for holidays.
      *
      * @param  string|null $date
      * @return bool
@@ -218,7 +218,7 @@ final class Timer
     }
 
     /**
-     * check if current date is in interval
+     * Check if current date is in interval.
      *
      * @param  array $intervals
      * @return bool
@@ -249,7 +249,7 @@ final class Timer
     }
 
     /**
-     * check if today is in days array
+     * Check if today is in days array.
      *
      * @return bool
      */
@@ -265,7 +265,7 @@ final class Timer
     }
 
     /**
-     * do time comparison
+     * Do time comparison.
      *
      * @param array $intervals
      * @return bool
