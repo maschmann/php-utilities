@@ -291,7 +291,7 @@ final class Timer
     /**
      * Check date string or object and convert if necessary.
      *
-     * @param mixed $date
+     * @param string|null $date
      * @return \DateTime
      */
     private function convertDate($date)
