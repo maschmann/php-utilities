@@ -157,11 +157,7 @@ final class Timer
     {
         $mixReturn = false;
 
-        if (empty($date)) {
-            $today = new \DateTime();
-        } else {
-            $today = new \DateTime($date);
-        }
+        $today = $this->convertDate($date);
 
         foreach ($this->config->get('general_holidays') as $holiday) {
             // clone for start/enddate
@@ -177,20 +173,16 @@ final class Timer
 
             // check if there's a modifier for holiday range and if it's before or after the actual holiday
             if (isset($this->currentConf['holiday']['additional'])) {
-                // creat interval object for difference to add/subtract
+                // create interval object for difference to add/subtract
                 $intervalDiff = new \DateInterval('P' . $this->currentConf['holiday']['additional'][1] . 'D');
                 switch ($this->currentConf['holiday']['additional'][0]) {
                     case 'add':
                         // if days are added, date will be enddate
-                        $holidayEnd->{$this->currentConf['holiday']['additional'][0]}(
-                            $intervalDiff
-                        );
+                        $holidayEnd->{$this->currentConf['holiday']['additional'][0]}($intervalDiff);
                         break;
                     case 'sub':
                         // if days are subtracted, date will be startdate
-                        $holidayStart->{$this->currentConf['holiday']['additional'][0]}(
-                            $intervalDiff
-                        );
+                        $holidayStart->{$this->currentConf['holiday']['additional'][0]}($intervalDiff);
                         break;
                 }
             }
@@ -205,9 +197,7 @@ final class Timer
             );
 
             // check if current date has passed start but not endtime
-            if ((1 == $intervalStart->invert)
-                && (0 == $intervalEnd->invert)
-            ) {
+            if ((1 == $intervalStart->invert) && (0 == $intervalEnd->invert)) {
                 $this->holiday = $holiday;
                 $mixReturn = true;
                 break;
@@ -298,5 +288,22 @@ final class Timer
         }
 
         return $this->checkIntervals($return);
+    }
+
+    /**
+     * Check date string or object and convert if necessary.
+     *
+     * @param mixed $date
+     * @return \DateTime
+     */
+    private function convertDate($date)
+    {
+        if (empty($date)) {
+            $today = new \DateTime();
+        } else {
+            $today = new \DateTime($date);
+        }
+
+        return $today;
     }
 }
