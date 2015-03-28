@@ -56,7 +56,7 @@ class Data implements DataInterface
 
             // iterate arguments reversed to build replacement array
             foreach (array_reverse($args) as $key) {
-                if (null == $replace) {
+                if (null === $replace) {
                     $replace = [$key => $val];
                 } else {
                     $replace = [$key => $replace];

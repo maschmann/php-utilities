@@ -67,7 +67,7 @@ final class Timer
             if (isset($this->currentConf['holiday']['use_general'])
                 && true === (bool)$this->currentConf['holiday']['use_general']
             ) {
-                if (false == $this->isHoliday()) {
+                if (false === $this->isHoliday()) {
                     $return = $this->checkDate();
                 }
             } elseif (0 < count($this->config->get('holidays'))) {
@@ -130,7 +130,7 @@ final class Timer
                 break;
             case (array_key_exists('time', $this->currentConf) && array_key_exists('day', $this->currentConf)):
                 // first check if we're on configured day
-                if (true == $this->checkDays()) {
+                if (true === $this->checkDays()) {
                     // then see if we're in the timeframe
                     $return = $this->checkTime();
                 }

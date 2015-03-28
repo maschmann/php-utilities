@@ -37,7 +37,6 @@ final class Config
      */
     public static function factory(array $param, $class = 'ConfigDefault')
     {
-        // @todo support more filetypes
         if (in_array($class, self::$whitelist)) {
             if (false === strpos($class, 'Asm')) {
                 $class = __NAMESPACE__ . '\\' . $class;
