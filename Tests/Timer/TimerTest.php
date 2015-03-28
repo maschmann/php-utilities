@@ -51,6 +51,7 @@ class TimerTest extends \PHPUnit_Framework_TestCase
      * @covers  \Asm\Timer\Timer::checkDays
      * @covers  \Asm\Timer\Timer::checkTime
      * @covers  \Asm\Timer\Timer::checkHoliday
+     * @covers  \Asm\Timer\Timer::convertDate
      * @covers  \Asm\Timer\Timer::flush
      * @param Timer $timer
      */

@@ -36,9 +36,6 @@ final class ConfigTimer extends ConfigAbstract implements ConfigInterface
                 case 'general_holidays':
                     $this->handleGeneralHolidays($timers, $timerKey);
                     break;
-                default:
-                    $this->set($timerKey, $timers);
-                    break;
             }
         }
     }

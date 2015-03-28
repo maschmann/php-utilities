@@ -44,6 +44,7 @@ class ConfigEnvTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Asm\Config\ConfigEnv::mergeEnvironments
+     * @covers \Asm\Config\ConfigEnv::__construct
      * @return \Asm\Config\ConfigInterface
      */
     public function testFactoryEnv()

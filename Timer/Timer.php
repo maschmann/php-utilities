@@ -98,7 +98,6 @@ final class Timer
     /**
      * Returns holiday object, if set.
      *
-     * @codeCoverageIgnore
      * @return \DateTime|null
      */
     public function getHoliday()
@@ -176,6 +175,7 @@ final class Timer
                 // create interval object for difference to add/subtract
                 $intervalDiff = new \DateInterval('P' . $this->currentConf['holiday']['additional'][1] . 'D');
                 switch ($this->currentConf['holiday']['additional'][0]) {
+                    // @codeCoverageIgnoreStart
                     case 'add':
                         // if days are added, date will be enddate
                         $holidayEnd->{$this->currentConf['holiday']['additional'][0]}($intervalDiff);
@@ -184,6 +184,7 @@ final class Timer
                         // if days are subtracted, date will be startdate
                         $holidayStart->{$this->currentConf['holiday']['additional'][0]}($intervalDiff);
                         break;
+                    // @codeCoverageIgnoreEnd
                 }
             }
 
