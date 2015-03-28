@@ -16,6 +16,9 @@ class ConfigTimerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers \Asm\Config\ConfigTimer::setConfig
+     * @covers \Asm\Config\ConfigTimer::handleTimers
+     * @covers \Asm\Config\ConfigTimer::handleHolidays
+     * @covers \Asm\Config\ConfigTimer::handleGeneralHolidays
      * @return ConfigTimer $config
      * @throws \ErrorException
      */
