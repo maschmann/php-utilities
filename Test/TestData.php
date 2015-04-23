@@ -20,6 +20,10 @@ class TestData
     public static function getYamlConfigFile()
     {
         return <<<EOT
+imports:
+    - { resource: testimport.yml }
+default:
+    testkey_4: 'default test'
 prod:
     testkey_1: 'testvalue'
     testkey_2:

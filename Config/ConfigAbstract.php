@@ -29,6 +29,16 @@ abstract class ConfigAbstract extends Data
     protected $filecheck = true;
 
     /**
+     * @var null
+     */
+    protected $imports;
+
+    /**
+     * @var null
+     */
+    protected $default;
+
+    /**
      * Default constructor.
      *
      * @param array $param
@@ -62,13 +72,11 @@ abstract class ConfigAbstract extends Data
      */
     public function readConfig($file)
     {
-        if ($this->filecheck && !is_file($file)) {
-            throw new \InvalidArgumentException(
-                'Config::Abstract() - Given config file ' . $file . ' does not exist!'
-            );
-        }
+        $config = $this->readFile($file);
+        $config = $this->extractDefault($config);
+        $config = $this->extractImports($config);
 
-        return (array)Yaml::parse($file);
+        return $config;
     }
 
     /**
@@ -79,5 +87,52 @@ abstract class ConfigAbstract extends Data
     public function setConfig($file)
     {
         $this->setByArray($this->readConfig($file));
+    }
+
+    /**
+     * Read yaml files.
+     *
+     * @param string $file path/filename
+     * @return array
+     */
+    private function readFile($file)
+    {
+        if ($this->filecheck && !is_file($file)) {
+            throw new \InvalidArgumentException(
+                'Config::Abstract() - Given config file ' . $file . ' does not exist!'
+            );
+        }
+
+        return (array)Yaml::parse($file);
+    }
+
+    /**
+     * @param array $config
+     * @return array
+     */
+    protected function extractImports(array $config)
+    {
+        if (array_key_exists('imports', $config) && 0 < count($config['imports'])) {
+            $this->imports = [];
+            foreach ($config['imports'] as $import) {
+                if (false !== empty($import['resource'])) {
+                    array_replace_recursive(
+                        $this->imports,
+                        $this->readFile($import['resource'])
+                    );
+                }
+            }
+        }
+
+        return $config;
+    }
+
+    /**
+     * @param array $config
+     * @return array
+     */
+    protected function extractDefault($config)
+    {
+        return $config;
     }
 }
