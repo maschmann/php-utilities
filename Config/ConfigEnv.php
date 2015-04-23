@@ -17,7 +17,7 @@ use Asm\Data\Data;
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
  */
-final class ConfigEnv extends ConfigAbstract implements ConfigInterface
+final class ConfigEnv extends AbstractConfig implements ConfigInterface
 {
     /**
      * @var string
@@ -66,6 +66,11 @@ final class ConfigEnv extends ConfigAbstract implements ConfigInterface
             $merged = $config->get($this->defaultEnv);
         }
 
-        $this->setByArray($merged);
+        $this->setByArray(
+            array_replace_recursive(
+                $this->default,
+                $merged
+            )
+        );
     }
 }

@@ -11,7 +11,7 @@ namespace Asm\Tests\Config;
 
 use Asm\Config\Config;
 use Asm\Config\ConfigDefault;
-use Asm\Test\TestData;
+use Asm\Test\BaseConfigTest;
 
 /**
  * Class ConfigDefaultTest
@@ -19,7 +19,7 @@ use Asm\Test\TestData;
  * @package Asm\Tests\Config
  * @author marc aschmann <marc.aschmann@internetstores.de>
  */
-class ConfigDefaultTest extends \PHPUnit_Framework_TestCase
+class ConfigDefaultTest extends BaseConfigTest
 {
     /**
      * @covers \Asm\Config\ConfigAbstract::readConfig
@@ -29,7 +29,7 @@ class ConfigDefaultTest extends \PHPUnit_Framework_TestCase
     {
         $config = Config::factory(
             [
-                'file' => TestData::getYamlConfigFile(),
+                'file' => $this->getTestYaml(),
                 'filecheck' => false,
             ],
             'ConfigDefault'

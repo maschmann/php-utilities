@@ -11,6 +11,7 @@ namespace Asm\Tests\Config;
 
 use Asm\Config\Config;
 use Asm\Config\ConfigEnv;
+use Asm\Test\BaseConfigTest;
 use Asm\Test\TestData;
 
 /**
@@ -19,7 +20,7 @@ use Asm\Test\TestData;
  * @package Asm\Tests\Config
  * @author marc aschmann <marc.aschmann@internetstores.de>
  */
-class ConfigEnvTest extends \PHPUnit_Framework_TestCase
+class ConfigEnvTest extends BaseConfigTest
 {
     /**
      * @covers \Asm\Config\ConfigEnv::mergeEnvironments
@@ -31,7 +32,7 @@ class ConfigEnvTest extends \PHPUnit_Framework_TestCase
         // merged environments config
         $config = Config::factory(
             [
-                'file' => TestData::getYamlConfigFile(),
+                'file' => $this->getTestYaml(),
                 'filecheck' => false,
             ],
             'ConfigEnv'

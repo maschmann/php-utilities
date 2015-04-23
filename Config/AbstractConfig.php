@@ -13,7 +13,7 @@ use Asm\Data\Data;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class ConfigAbstract
+ * Class AbstractConfig
  *
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
@@ -21,7 +21,7 @@ use Symfony\Component\Yaml\Yaml;
  * @uses Asm\Data\Data
  * @uses Symfony\Component\Yaml\Yaml
  */
-abstract class ConfigAbstract extends Data
+abstract class AbstractConfig extends Data
 {
     /**
      * @var bool
@@ -29,14 +29,14 @@ abstract class ConfigAbstract extends Data
     protected $filecheck = true;
 
     /**
-     * @var null
+     * @var array
      */
-    protected $imports;
+    protected $imports = [];
 
     /**
-     * @var null
+     * @var array
      */
-    protected $default;
+    protected $default = [];
 
     /**
      * Default constructor.
@@ -73,8 +73,9 @@ abstract class ConfigAbstract extends Data
     public function readConfig($file)
     {
         $config = $this->readFile($file);
-        $config = $this->extractDefault($config);
         $config = $this->extractImports($config);
+        $config = $this->extractDefault($config);
+        $this->mergeDefault();
 
         return $config;
     }
@@ -86,7 +87,12 @@ abstract class ConfigAbstract extends Data
      */
     public function setConfig($file)
     {
-        $this->setByArray($this->readConfig($file));
+        $this->setByArray(
+            array_replace_recursive(
+                $this->default,
+                $this->readConfig($file)
+            )
+        );
     }
 
     /**
@@ -107,19 +113,23 @@ abstract class ConfigAbstract extends Data
     }
 
     /**
+     * get all import files from config, if set and remove node.
+     *
      * @param array $config
      * @return array
      */
-    protected function extractImports(array $config)
+    private function extractImports(array $config)
     {
         if (array_key_exists('imports', $config) && 0 < count($config['imports'])) {
             $this->imports = [];
-            foreach ($config['imports'] as $import) {
-                if (false !== empty($import['resource'])) {
-                    array_replace_recursive(
+            foreach ($config['imports'] as $key => $import) {
+                if (false === empty($import['resource'])) {
+                    $this->imports = array_replace_recursive(
                         $this->imports,
                         $this->readFile($import['resource'])
                     );
+
+                    unset($config['resource'][$key]);
                 }
             }
         }
@@ -128,11 +138,26 @@ abstract class ConfigAbstract extends Data
     }
 
     /**
+     * Get default values if set and remove node from config.
+     *
      * @param array $config
      * @return array
      */
-    protected function extractDefault($config)
+    private function extractDefault($config)
     {
+        if (array_key_exists('default', $config)) {
+            $this->default = $config['default'];
+            unset($config['default']);
+        }
+
         return $config;
+    }
+
+    /**
+     * Prepare the defaults and replace recursively.
+     */
+    private function mergeDefault()
+    {
+        $this->default = array_replace_recursive($this->imports, $this->default);
     }
 }

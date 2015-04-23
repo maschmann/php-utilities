@@ -15,7 +15,7 @@ namespace Asm\Config;
  * @package Asm\Config
  * @author marc aschmann <maschmann@gmail.com>
  */
-final class ConfigTimer extends ConfigAbstract implements ConfigInterface
+final class ConfigTimer extends AbstractConfig implements ConfigInterface
 {
     /**
      * Convert config date strings to \DateTime objects or \DateIntervals.

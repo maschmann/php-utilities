@@ -10,9 +10,15 @@
 namespace Asm\Tests\Config;
 
 use Asm\Config\Config;
-use Asm\Test\TestData;
+use Asm\Test\BaseConfigTest;
 
-class ConfigTimerTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class ConfigTimerTest
+ *
+ * @package Asm\Tests\Config
+ * @author Marc Aschmann <maschmann@gmail.com>
+ */
+class ConfigTimerTest extends BaseConfigTest
 {
     /**
      * @covers \Asm\Config\ConfigTimer::setConfig
@@ -26,7 +32,7 @@ class ConfigTimerTest extends \PHPUnit_Framework_TestCase
     {
         $config = Config::factory(
             [
-                'file' => TestData::getYamlTimerConfigFile(),
+                'file' => $this->getTimerYaml(),
                 'filecheck' => false,
             ],
             'ConfigTimer'
