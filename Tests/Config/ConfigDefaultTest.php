@@ -36,5 +36,22 @@ class ConfigDefaultTest extends BaseConfigTest
         );
 
         $this->assertInstanceOf('Asm\Config\ConfigDefault', $config);
+
+        return $config;
     }
+
+    /**
+     * @depends testFactory
+     * @param ConfigDefault $config
+     */
+    /*public function testImport($config)
+    {
+        $this->assertEquals(
+            [
+                'default' => 'yaddayadda',
+                'my_test' => 'is testing hard'
+            ],
+            $config->get('testkey_5')
+        );
+    }*/
 }

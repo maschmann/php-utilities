@@ -26,7 +26,6 @@ Here you get a static factory which is able to produce three types of configurat
 Available types are:
 * ConfigDefault - basic config object, stores the yaml content "as is", provides get/set.
 * ConfigEnv - provides the possibility to get an environment-merged config. Based on the currently provided env, you'll have e.g. prod -> dev merged, with prod node as a master.
-* ConfigEnvExtended - same as ConfigEnv, adds the possibility to have "default" node on env-level, which will be the merge-base before prod. Merge: default -> prod -> $env
 * ConfigTimer is a specialised for of config to provide pre-generated DateTime objects for the Timer class.
 
 Configs now also support the "imports" syntax from symfony configs.
@@ -35,8 +34,8 @@ Configs now also support the "imports" syntax from symfony configs.
 imports:
     - { resource: defaults.yml }
 ```
-
-Imported configs will be treated just like the "default" node and become the base for merging.
+There is the possibility to use a "default" node in all configs, except timers, which will be used as merge-base.
+Imported configs will be treated just like the "default" node and also become the base for merging.
 The order of merges is import -> default -> prod -> $env.
 
 ### Timer
