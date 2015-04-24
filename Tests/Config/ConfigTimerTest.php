@@ -25,6 +25,7 @@ class ConfigTimerTest extends BaseConfigTest
      * @covers \Asm\Config\ConfigTimer::handleTimers
      * @covers \Asm\Config\ConfigTimer::handleHolidays
      * @covers \Asm\Config\ConfigTimer::handleGeneralHolidays
+     * @covers \Asm\Test\BaseConfigTest::getTimerYaml
      * @return ConfigTimer $config
      * @throws \ErrorException
      */
@@ -33,7 +34,6 @@ class ConfigTimerTest extends BaseConfigTest
         $config = Config::factory(
             [
                 'file' => $this->getTimerYaml(),
-                'filecheck' => false,
             ],
             'ConfigTimer'
         );

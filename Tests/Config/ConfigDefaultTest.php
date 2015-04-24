@@ -22,15 +22,14 @@ use Asm\Test\BaseConfigTest;
 class ConfigDefaultTest extends BaseConfigTest
 {
     /**
-     * @covers \Asm\Config\ConfigAbstract::readConfig
-     * @covers \Asm\Config\ConfigAbstract::setConfig
+     * @covers \Asm\Config\AbstractConfig::readConfig
+     * @covers \Asm\Config\AbstractConfig::setConfig
      */
     public function testFactory()
     {
         $config = Config::factory(
             [
                 'file' => $this->getTestYaml(),
-                'filecheck' => false,
             ],
             'ConfigDefault'
         );
@@ -44,7 +43,7 @@ class ConfigDefaultTest extends BaseConfigTest
      * @depends testFactory
      * @param ConfigDefault $config
      */
-    /*public function testImport($config)
+    public function testImport(ConfigDefault $config)
     {
         $this->assertEquals(
             [
@@ -53,5 +52,5 @@ class ConfigDefaultTest extends BaseConfigTest
             ],
             $config->get('testkey_5')
         );
-    }*/
+    }
 }

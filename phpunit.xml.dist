@@ -23,6 +23,7 @@
             <exclude>
                 <directory>./Tests</directory>
                 <directory>./vendor</directory>
+                <file>./example.php</file>
             </exclude>
         </whitelist>
     </filter>

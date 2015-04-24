@@ -77,7 +77,10 @@ abstract class AbstractConfig extends Data
         $config = $this->extractDefault($config);
         $this->mergeDefault();
 
-        return $config;
+        return array_replace_recursive(
+            $this->default,
+            $config
+        );
     }
 
     /**
@@ -128,10 +131,10 @@ abstract class AbstractConfig extends Data
                         $this->imports,
                         $this->readFile($import['resource'])
                     );
-
-                    unset($config['resource'][$key]);
                 }
             }
+
+            unset($config['imports']);
         }
 
         return $config;
