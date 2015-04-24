@@ -18,15 +18,6 @@ namespace Asm\Config;
 final class Config
 {
     /**
-     * @var array
-     */
-    private static $whitelist = [
-        'ConfigDefault',
-        'ConfigEnv',
-        'ConfigTimer',
-    ];
-
-    /**
      * Get object of specific class.
      *
      * @param  array $param config file name
@@ -37,11 +28,11 @@ final class Config
      */
     public static function factory(array $param, $class = 'ConfigDefault')
     {
-        if (in_array($class, self::$whitelist)) {
-            if (false === strpos($class, 'Asm')) {
-                $class = __NAMESPACE__ . '\\' . $class;
-            }
+        if (false === strpos($class, 'Asm')) {
+            $class = __NAMESPACE__ . '\\' . $class;
+        }
 
+        if (class_exists($class)) {
             // allow config names without ending
             if (empty($param['file'])) {
                 throw new \InvalidArgumentException('Config::factory() - config filename missing in param array!');

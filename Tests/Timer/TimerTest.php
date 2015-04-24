@@ -75,6 +75,7 @@ class TimerTest extends \PHPUnit_Framework_TestCase
      * @covers  \Asm\Timer\Timer::isHoliday
      * @covers  \Asm\Timer\Timer::getHoliday
      * @covers  \Asm\Timer\Timer::checkHoliday
+     * @covers  \Asm\Timer\Timer::convertDate
      * @param Timer $timer
      */
     public function testIsHoliday(Timer $timer)

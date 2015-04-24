@@ -10,7 +10,7 @@
 namespace Asm\Tests\Config;
 
 use Asm\Config\Config;
-use Asm\Test\TestData;
+use Asm\Test\BaseConfigTest;
 
 /**
  * Class ConfigFactoryTest
@@ -18,8 +18,9 @@ use Asm\Test\TestData;
  * @package Asm\Tests\Config
  * @author marc aschmann <marc.aschmann@internetstores.de>
  */
-class ConfigFactoryTest extends \PHPUnit_Framework_TestCase
+class ConfigFactoryTest extends BaseConfigTest
 {
+
     /**
      * @covers \Asm\Config\Config::factory
      */
@@ -27,7 +28,22 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $config = Config::factory(
             [
-                'file' => TestData::getYamlConfigFile(),
+                'file' => $this->getTestYaml(),
+            ],
+            'ConfigDefault'
+        );
+
+        $this->assertInstanceOf('Asm\Config\ConfigDefault', $config);
+    }
+
+    /**
+     * @covers \Asm\Config\Config::factory
+     */
+    public function testFactoryWithoutFilecheck()
+    {
+        $config = Config::factory(
+            [
+                'file' => $this->getTestYaml(),
                 'filecheck' => false,
             ],
             'ConfigDefault'
@@ -44,8 +60,7 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $config = Config::factory(
             [
-                'file' => TestData::getYamlConfigFile(),
-                'filecheck' => false,
+                'file' => $this->getTestYaml(),
             ],
             'ConfigXXX'
         );

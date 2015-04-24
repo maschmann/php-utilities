@@ -11,7 +11,7 @@ namespace Asm\Tests\Config;
 
 use Asm\Config\Config;
 use Asm\Config\ConfigDefault;
-use Asm\Test\TestData;
+use Asm\Test\BaseConfigTest;
 
 /**
  * Class ConfigDefaultTest
@@ -19,22 +19,38 @@ use Asm\Test\TestData;
  * @package Asm\Tests\Config
  * @author marc aschmann <marc.aschmann@internetstores.de>
  */
-class ConfigDefaultTest extends \PHPUnit_Framework_TestCase
+class ConfigDefaultTest extends BaseConfigTest
 {
     /**
-     * @covers \Asm\Config\ConfigAbstract::readConfig
-     * @covers \Asm\Config\ConfigAbstract::setConfig
+     * @covers \Asm\Config\AbstractConfig::readConfig
+     * @covers \Asm\Config\AbstractConfig::setConfig
      */
     public function testFactory()
     {
         $config = Config::factory(
             [
-                'file' => TestData::getYamlConfigFile(),
-                'filecheck' => false,
+                'file' => $this->getTestYaml(),
             ],
             'ConfigDefault'
         );
 
         $this->assertInstanceOf('Asm\Config\ConfigDefault', $config);
+
+        return $config;
+    }
+
+    /**
+     * @depends testFactory
+     * @param ConfigDefault $config
+     */
+    public function testImport(ConfigDefault $config)
+    {
+        $this->assertEquals(
+            [
+                'default' => 'yaddayadda',
+                'my_test' => 'is testing hard'
+            ],
+            $config->get('testkey_5')
+        );
     }
 }

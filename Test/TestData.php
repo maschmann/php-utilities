@@ -12,6 +12,15 @@ namespace Asm\Test;
  */
 class TestData
 {
+    public static function getYamlImportFile()
+    {
+        return <<<EOT
+testkey_5:
+    default: yaddayadda
+    my_test: is testing hard
+EOT;
+    }
+
     /**
      * provide yaml schema testdata
      *
@@ -20,6 +29,10 @@ class TestData
     public static function getYamlConfigFile()
     {
         return <<<EOT
+imports:
+    - { resource: 'vfs://configs/testimport.yml' }
+default:
+    testkey_4: 'default test'
 prod:
     testkey_1: 'testvalue'
     testkey_2:

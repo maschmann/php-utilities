@@ -11,6 +11,7 @@ namespace Asm\Tests\Config;
 
 use Asm\Config\Config;
 use Asm\Config\ConfigEnv;
+use Asm\Test\BaseConfigTest;
 use Asm\Test\TestData;
 
 /**
@@ -19,7 +20,7 @@ use Asm\Test\TestData;
  * @package Asm\Tests\Config
  * @author marc aschmann <marc.aschmann@internetstores.de>
  */
-class ConfigEnvTest extends \PHPUnit_Framework_TestCase
+class ConfigEnvTest extends BaseConfigTest
 {
     /**
      * @covers \Asm\Config\ConfigEnv::mergeEnvironments
@@ -31,7 +32,27 @@ class ConfigEnvTest extends \PHPUnit_Framework_TestCase
         // merged environments config
         $config = Config::factory(
             [
-                'file' => TestData::getYamlConfigFile(),
+                'file' => $this->getTestYaml(),
+            ],
+            'ConfigEnv'
+        );
+
+        $this->assertInstanceOf('Asm\Config\ConfigEnv', $config);
+
+        return $config;
+    }
+
+    /**
+     * @covers \Asm\Config\ConfigEnv::mergeEnvironments
+     * @covers \Asm\Config\ConfigEnv::__construct
+     * @return \Asm\Config\ConfigInterface
+     */
+    public function testFactoryProdWithoutFilecheck()
+    {
+        // merged environments config
+        $config = Config::factory(
+            [
+                'file' => $this->getTestYaml(),
                 'filecheck' => false,
             ],
             'ConfigEnv'
@@ -51,8 +72,7 @@ class ConfigEnvTest extends \PHPUnit_Framework_TestCase
     {
         $config = Config::factory(
             [
-                'file' => TestData::getYamlConfigFile(),
-                'filecheck' => false,
+                'file' => $this->getTestYaml(),
                 'defaultEnv' => 'prod',
                 'env' => 'dev',
             ],
@@ -71,5 +91,33 @@ class ConfigEnvTest extends \PHPUnit_Framework_TestCase
     public function testConfigMerge(ConfigEnv $config)
     {
         $this->assertEquals(25, $config->get('testkey_2', 0));
+    }
+
+
+    /**
+     * @depends testFactoryEnv
+     * @param ConfigEnv $config
+     */
+    public function testConfigInclude(ConfigEnv $config)
+    {
+        $this->assertEquals(
+            [
+                'default' => 'yaddayadda',
+                'my_test' => 'is testing hard'
+            ],
+            $config->get('testkey_5')
+        );
+    }
+
+    /**
+     * @depends testFactoryEnv
+     * @param ConfigEnv $config
+     */
+    public function testConfigDefaultNode(ConfigEnv $config)
+    {
+        $this->assertEquals(
+            'default test',
+            $config->get('testkey_4')
+        );
     }
 }

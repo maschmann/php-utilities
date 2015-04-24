@@ -28,6 +28,16 @@ Available types are:
 * ConfigEnv - provides the possibility to get an environment-merged config. Based on the currently provided env, you'll have e.g. prod -> dev merged, with prod node as a master.
 * ConfigTimer is a specialised for of config to provide pre-generated DateTime objects for the Timer class.
 
+Configs now also support the "imports" syntax from symfony configs.
+
+```
+imports:
+    - { resource: defaults.yml }
+```
+There is the possibility to use a "default" node in all configs, except timers, which will be used as merge-base.
+Imported configs will be treated just like the "default" node and also become the base for merging.
+The order of merges is import -> default -> prod -> $env.
+
 ### Timer
 Provides functionality to check if there's a current holiday, has configurable "timers" to check uf e.g. your hotline should be available etc.
 Extensive examples can be found within both, the TestData and UnitTests :-)

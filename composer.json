@@ -1,26 +1,27 @@
 {
-    "name": "asm/php-utilities",
-    "description": "php tools with data container, collection objects and timer",
-    "keywords": [],
-    "homepage": "https://github.com/maschmann/php-utilities",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Marc Aschmann",
-            "email": "maschmann@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.9",
-        "symfony/yaml": "2.*"
-    },
-    "require-dev": {
-        "phpunit\/phpunit": "~4.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Asm\\": ""
-        }
+  "name": "asm/php-utilities",
+  "description": "php tools with data container, collection objects, yaml config loader and timer",
+  "keywords": [],
+  "homepage": "https://github.com/maschmann/php-utilities",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marc Aschmann",
+      "email": "maschmann@gmail.com"
     }
+  ],
+  "require": {
+    "php": ">=5.3.9",
+    "symfony/yaml": "~2.0"
+  },
+  "require-dev": {
+    "phpunit\/phpunit": "~4.0",
+    "mikey179/vfsStream": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Asm\\": ""
+    }
+  }
 }
