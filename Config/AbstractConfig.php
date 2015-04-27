@@ -29,6 +29,11 @@ abstract class AbstractConfig extends Data
     protected $filecheck = true;
 
     /**
+     * @var string
+     */
+    private $currentBasepath;
+
+    /**
      * @var array
      */
     protected $imports = [];
@@ -72,6 +77,8 @@ abstract class AbstractConfig extends Data
      */
     public function readConfig($file)
     {
+        $this->currentBasepath = dirname($file);
+
         $config = $this->readFile($file);
         $config = $this->extractImports($config);
         $config = $this->extractDefault($config);
@@ -129,7 +136,7 @@ abstract class AbstractConfig extends Data
                 if (false === empty($import['resource'])) {
                     $this->imports = array_replace_recursive(
                         $this->imports,
-                        $this->readFile($import['resource'])
+                        $this->readFile($this->currentBasepath . '/' . $import['resource'])
                     );
                 }
             }
