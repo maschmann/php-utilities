@@ -134,9 +134,11 @@ abstract class AbstractConfig extends Data
             $this->imports = [];
             foreach ($config['imports'] as $key => $import) {
                 if (false === empty($import['resource'])) {
+                    $include = $this->checkPath($import['resource']);
+
                     $this->imports = array_replace_recursive(
                         $this->imports,
-                        $this->readFile($this->currentBasepath . '/' . $import['resource'])
+                        $this->readFile($include)
                     );
                 }
             }
@@ -169,5 +171,20 @@ abstract class AbstractConfig extends Data
     private function mergeDefault()
     {
         $this->default = array_replace_recursive($this->imports, $this->default);
+    }
+
+    /**
+     * Only add basepath if not already in filename.
+     *
+     * @param string $include
+     * @return string
+     */
+    private function checkPath($include)
+    {
+        if (0 !== strpos($include, $this->currentBasepath)) {
+            $include = $this->currentBasepath . '/' . $include;
+        }
+
+        return $include;
     }
 }
