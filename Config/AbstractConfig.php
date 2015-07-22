@@ -113,10 +113,14 @@ abstract class AbstractConfig extends Data
      */
     private function readFile($file)
     {
-        if ($this->filecheck && !is_file($file)) {
-            throw new \InvalidArgumentException(
-                'Config::Abstract() - Given config file ' . $file . ' does not exist!'
-            );
+        if ($this->filecheck) {
+            if (is_file($file)) {
+                $file = file_get_contents($file);
+            } else {
+                throw new \InvalidArgumentException(
+                    'Config::Abstract() - Given config file ' . $file . ' does not exist!'
+                );
+            }
         }
 
         return (array)Yaml::parse($file);
