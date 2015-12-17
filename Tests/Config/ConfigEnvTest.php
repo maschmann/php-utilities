@@ -52,7 +52,7 @@ class ConfigEnvTest extends BaseConfigTest
         // merged environments config
         $config = Config::factory(
             [
-                'file' => $this->getTestYaml(),
+                'file' => TestData::getYamlConfigFile(),
                 'filecheck' => false,
             ],
             'ConfigEnv'

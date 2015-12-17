@@ -41,7 +41,7 @@ final class Config
             return new $class($param);
         } else {
             throw new \ErrorException(
-                'Config::factory() - could not instantiate ' . $class . ' - not in self::$whitelist'
+                'Config::factory() - could not instantiate ' . $class
             );
         }
     }

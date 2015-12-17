@@ -63,7 +63,7 @@ final class ConfigEnv extends AbstractConfig implements ConfigInterface
                 $toMerge
             );
         } else {
-            $merged = $config->get($this->defaultEnv);
+            $merged = $config->get($this->defaultEnv, []);
         }
 
         $this->setByArray(

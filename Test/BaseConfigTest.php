@@ -34,7 +34,7 @@ class BaseConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->root = vfsStream::setup('configs');
         $this->configFile = vfsStream::newFile('default.yml')->at($this->root);
-        $this->configFile->setContent(TestData::getYamlConfigFile());
+        $this->configFile->setContent(TestData::getYamlImportConfigFile());
 
         $this->configImportFile = vfsStream::newFile('testimport.yml')->at($this->root);
         $this->configImportFile->setContent(TestData::getYamlImportFile());

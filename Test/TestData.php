@@ -15,6 +15,7 @@ class TestData
     public static function getYamlImportFile()
     {
         return <<<EOT
+---
 testkey_5:
     default: yaddayadda
     my_test: is testing hard
@@ -29,6 +30,38 @@ EOT;
     public static function getYamlConfigFile()
     {
         return <<<EOT
+---
+default:
+    testkey_4: 'default test'
+prod:
+    testkey_1: 'testvalue'
+    testkey_2:
+        - dummy1
+        - dummy2
+        - dummy3
+    testkey_3:
+        subkey_1: subvalue1
+        subkey_2: 123
+        subkey_3: ~
+
+stage: []
+test: []
+dev:
+    testkey_2:
+        - 25
+        - 69
+EOT;
+    }
+
+    /**
+     * provide yaml schema testdata
+     *
+     * @return string
+     */
+    public static function getYamlImportConfigFile()
+    {
+        return <<<EOT
+---
 imports:
     - { resource: 'vfs://configs/testimport.yml' }
 default:
@@ -64,6 +97,7 @@ EOT;
         $tomorrow = new \DateTime('tomorrow');
 
         return <<<EOT
+---
 timers:
     example_timer_config_1:
         interval:
