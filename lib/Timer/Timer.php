@@ -46,8 +46,6 @@ final class Timer
     public function __construct(ConfigTimer $config)
     {
         $this->config = $config;
-
-        return $this;
     }
 
     /**
