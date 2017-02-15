@@ -10,6 +10,7 @@
 namespace Asm\Tests\Data;
 
 use Asm\Data\Data;
+use Asm\Exception\InvalidParameterSetException;
 
 /**
  * Class DataTest
@@ -67,7 +68,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testSet
-     * @expectedException InvalidArgumentException
+     * @expectedException \Asm\Exception\InvalidParameterSetException
      * @param Data $data
      */
     public function testSetException(Data $data)
@@ -132,6 +133,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetByArray(Data $data)
     {
+        $data->setByArray([]);
+        $this->assertTrue(empty($data->toArray()));
+
         $data->setByArray(
             [
                 'testKey3' => 'test_value_3',
@@ -147,16 +151,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('stdClass', $data->get('testKey6'));
 
         return $data;
-    }
-
-    /**
-     * @depends testConstruct
-     * @expectedException InvalidArgumentException
-     * @param Data $data
-     */
-    public function testSetByArrayException(Data $data)
-    {
-        $data->setByArray([]);
     }
 
     /**
@@ -193,7 +187,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testConstruct
-     * @expectedException InvalidArgumentException
+     * @expectedException \Asm\Exception\InvalidParameterException
      * @param Data $data
      */
     public function testSetByObjectException(Data $data)

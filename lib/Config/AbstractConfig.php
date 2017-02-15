@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
  * This file is part of the php-utilities package.
  *
@@ -10,19 +11,28 @@
 namespace Asm\Config;
 
 use Asm\Data\Data;
+use Asm\Exception\InvalidConfigFileException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class AbstractConfig
  *
  * @package Asm\Config
- * @author marc aschmann <maschmann@gmail.com>
+ * @author Marc Aschmann <maschmann@gmail.com>
  * @codeCoverageIgnore
  * @uses Asm\Data\Data
  * @uses Symfony\Component\Yaml\Yaml
  */
 abstract class AbstractConfig extends Data
 {
+    const IMPORTS = 'imports';
+    const FILECHECK = 'filecheck';
+    const FILE = 'file';
+    const RESOURCE = 'resource';
+    const DEFAULT = 'default';
+    const DEFAULT_ENVIRONMENT = 'defaultEnv';
+    const ENVIRONMENT = 'env';
+
     /**
      * @var bool
      */
@@ -50,8 +60,8 @@ abstract class AbstractConfig extends Data
      */
     public function __construct(array $param)
     {
-        if (isset($param['filecheck'])) {
-            $this->filecheck = (bool)$param['filecheck'];
+        if (isset($param[self::FILECHECK])) {
+            $this->filecheck = (bool)$param[self::FILECHECK];
         }
 
         $this->setConfig($param['file']);
@@ -63,10 +73,13 @@ abstract class AbstractConfig extends Data
      *
      * @param string $name name of property
      * @param string $file string $file absolute filepath/filename.ending
+     * @return $this
      */
-    public function addConfig($name, $file)
+    public function addConfig(string $name, string $file)
     {
         $this->set($name, $this->readConfig($file));
+
+        return $this;
     }
 
     /**
@@ -75,7 +88,7 @@ abstract class AbstractConfig extends Data
      * @param  string $file absolute filepath/filename.ending
      * @return array config array
      */
-    public function readConfig($file)
+    public function readConfig(string $file) : array
     {
         $this->currentBasepath = dirname($file);
 
@@ -94,8 +107,9 @@ abstract class AbstractConfig extends Data
      * Add config to data storage.
      *
      * @param string $file absolute filepath/filename.ending
+     * @return $this
      */
-    public function setConfig($file)
+    public function setConfig(string $file)
     {
         $this->setByArray(
             array_replace_recursive(
@@ -103,6 +117,8 @@ abstract class AbstractConfig extends Data
                 $this->readConfig($file)
             )
         );
+
+        return $this;
     }
 
     /**
@@ -111,14 +127,14 @@ abstract class AbstractConfig extends Data
      * @param string $file path/filename
      * @return array
      */
-    private function readFile($file)
+    private function readFile(string $file) : array
     {
         if ($this->filecheck) {
             if (is_file($file)) {
                 $file = file_get_contents($file);
             } else {
-                throw new \InvalidArgumentException(
-                    'Config::Abstract() - Given config file ' . $file . ' does not exist!'
+                throw new InvalidConfigFileException(
+                    "Config::Abstract() - Given config file {$file} does not exist!"
                 );
             }
         }
@@ -132,13 +148,13 @@ abstract class AbstractConfig extends Data
      * @param array $config
      * @return array
      */
-    private function extractImports(array $config)
+    private function extractImports(array $config) : array
     {
-        if (array_key_exists('imports', $config) && 0 < count($config['imports'])) {
+        if (array_key_exists(self::IMPORTS, $config) && 0 < count($config[self::IMPORTS])) {
             $this->imports = [];
-            foreach ($config['imports'] as $key => $import) {
-                if (false === empty($import['resource'])) {
-                    $include = $this->checkPath($import['resource']);
+            foreach ($config[self::IMPORTS] as $key => $import) {
+                if (false === empty($import[self::RESOURCE])) {
+                    $include = $this->checkPath($import[self::RESOURCE]);
 
                     $this->imports = array_replace_recursive(
                         $this->imports,
@@ -147,7 +163,7 @@ abstract class AbstractConfig extends Data
                 }
             }
 
-            unset($config['imports']);
+            unset($config[self::IMPORTS]);
         }
 
         return $config;
@@ -159,11 +175,11 @@ abstract class AbstractConfig extends Data
      * @param array $config
      * @return array
      */
-    private function extractDefault($config)
+    private function extractDefault(array $config) : array
     {
-        if (array_key_exists('default', $config)) {
-            $this->default = $config['default'];
-            unset($config['default']);
+        if (array_key_exists(self::DEFAULT, $config)) {
+            $this->default = $config[self::DEFAULT];
+            unset($config[self::DEFAULT]);
         }
 
         return $config;
@@ -183,7 +199,7 @@ abstract class AbstractConfig extends Data
      * @param string $include
      * @return string
      */
-    private function checkPath($include)
+    private function checkPath(string $include) : string
     {
         if (0 !== strpos($include, $this->currentBasepath)) {
             $include = $this->currentBasepath . '/' . $include;

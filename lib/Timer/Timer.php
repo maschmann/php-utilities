@@ -54,9 +54,9 @@ final class Timer
      * Check if timer is active.
      *
      * @param  string $type
-     * @return boolean
+     * @return bool
      */
-    public function isTimerActive($type)
+    public function isTimerActive(string $type) : bool
     {
         $return = false;
         $this->currentConf = $this->config->get('timers', $type);
@@ -81,6 +81,7 @@ final class Timer
         }
 
         $this->flush();
+
         return $return;
     }
 
@@ -88,9 +89,9 @@ final class Timer
      * Calculate difference between holiday DateTime objects and current or given time.
      *
      * @param  string|null $date
-     * @return boolean
+     * @return bool
      */
-    public function isHoliday($date = null)
+    public function isHoliday($date = null) : bool
     {
         return $this->checkHoliday($date);
     }
@@ -119,7 +120,7 @@ final class Timer
      *
      * @return bool
      */
-    private function checkDate()
+    private function checkDate() : bool
     {
         $return = false;
 
@@ -152,7 +153,7 @@ final class Timer
      * @param  string|null $date
      * @return bool
      */
-    private function checkHoliday($date = null)
+    private function checkHoliday($date = null) : bool
     {
         $mixReturn = false;
 
@@ -214,7 +215,7 @@ final class Timer
      * @param  array $intervals
      * @return bool
      */
-    private function checkIntervals(array $intervals = [])
+    private function checkIntervals(array $intervals = []) : bool
     {
         $today = new \DateTime();
         $return = false;
@@ -242,7 +243,7 @@ final class Timer
      *
      * @return bool
      */
-    private function checkDays()
+    private function checkDays() : bool
     {
         $return = false;
 
@@ -259,7 +260,7 @@ final class Timer
      * @param array $intervals
      * @return bool
      */
-    private function checkTime($intervals = [])
+    private function checkTime($intervals = []) : bool
     {
         $return = [];
         if (empty($intervals)) {
@@ -295,7 +296,7 @@ final class Timer
      * @param string|null $date
      * @return \DateTime
      */
-    private function convertDate($date)
+    private function convertDate($date) : \DateTime
     {
         if (empty($date)) {
             $today = new \DateTime();

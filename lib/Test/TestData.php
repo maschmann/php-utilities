@@ -8,7 +8,7 @@ namespace Asm\Test;
  * Class TestData
  *
  * @package Asm\Test
- * @author marc aschmann <maschmann@gmail.com>
+ * @author Marc Aschmann <maschmann@gmail.com>
  */
 class TestData
 {

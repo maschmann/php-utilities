@@ -13,7 +13,7 @@ namespace Asm\Config;
  * Class ConfigTimer
  *
  * @package Asm\Config
- * @author marc aschmann <maschmann@gmail.com>
+ * @author Marc Aschmann <maschmann@gmail.com>
  */
 final class ConfigTimer extends AbstractConfig implements ConfigInterface
 {
@@ -21,8 +21,9 @@ final class ConfigTimer extends AbstractConfig implements ConfigInterface
      * Convert config date strings to \DateTime objects or \DateIntervals.
      *
      * @param string $file config file
+     * @return $this
      */
-    public function setConfig($file)
+    public function setConfig(string $file)
     {
         // iterate conf and check if there are dates/datetimes/times and so on, for conversion
         foreach ($this->readConfig($file) as $timerKey => $timers) {
@@ -38,6 +39,8 @@ final class ConfigTimer extends AbstractConfig implements ConfigInterface
                     break;
             }
         }
+
+        return $this;
     }
 
     /**
@@ -46,7 +49,7 @@ final class ConfigTimer extends AbstractConfig implements ConfigInterface
      * @param array $timers
      * @param string $timerKey
      */
-    private function handleTimers(array $timers, $timerKey)
+    private function handleTimers(array $timers, string $timerKey)
     {
         foreach ($timers as $timerSubKey => $params) {
             foreach ($params as $paramKey => $paramVal) {
@@ -98,9 +101,9 @@ final class ConfigTimer extends AbstractConfig implements ConfigInterface
      * Generate holiday DateTime objects for config.
      *
      * @param array $timers
-     * @param mixed $timerKey
+     * @param string $timerKey
      */
-    private function handleHolidays(array $timers, $timerKey)
+    private function handleHolidays(array $timers, string $timerKey)
     {
         foreach ($timers as $timerSubKey => $params) {
             foreach ($params as $paramKey => $paramValue) {
@@ -120,9 +123,9 @@ final class ConfigTimer extends AbstractConfig implements ConfigInterface
      * Handle holiday list and covert to DateTime where possible.
      *
      * @param array $timers
-     * @param mixed $timerKey
+     * @param string $timerKey
      */
-    private function handleGeneralHolidays(array $timers, $timerKey)
+    private function handleGeneralHolidays(array $timers, string $timerKey)
     {
         $tmpConf = [];
         $year    = date('Y');

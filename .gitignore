@@ -1,6 +1,7 @@
 # dirs
 vendor
 tmp
+bin
 
 #files
 composer.lock

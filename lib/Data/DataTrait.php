@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
  * This file is part of the php-utilities package.
  *
@@ -7,17 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Asm\Data;
 
+use Asm\Exception\InvalidParameterException;
+use Asm\Exception\InvalidParameterSetException;
+
 /**
- * Class Data
+ * DataTrait for easier inclusion in other objects without direct inheritance
  *
  * @package Asm\Data
- * @author marc aschmann <maschmann@gmail.com>
+ * @author Marc Aschmann <maschmann@gmail.com>
  */
-class Data implements DataInterface
+trait DataTrait
 {
-
     /**
      * Internal data storage.
      *
@@ -42,7 +46,7 @@ class Data implements DataInterface
      *
      * $this->set( $key1, $key2, $key3, ..., $val )
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidParameterSetException
      * @return $this
      */
     public function set()
@@ -66,8 +70,8 @@ class Data implements DataInterface
             // add our data to storage
             $this->data = array_replace_recursive($this->data, $replace);
         } else {
-            throw new \InvalidArgumentException(
-                'Data::set() - Not enough Parameters, need at least key + val'
+            throw new InvalidParameterSetException(
+                "Data::set() - You just provided one param and need at least another param."
             );
         }
 
@@ -76,6 +80,7 @@ class Data implements DataInterface
 
     /**
      * Set list of key/value pairs via one dimensional array.
+     * Careful: An empty array will just overwrite your internal storage.
      *
      * @param  array $param
      * @return $this
@@ -88,10 +93,8 @@ class Data implements DataInterface
             foreach ($param as $key => $value) {
                 $this->set($key, $value);
             }
-        } else {
-            throw new \InvalidArgumentException(
-                'Data::setByArray() - $param is empty!'
-            );
+        } else { // will overwrite content with an empty array
+            $this->data = $param;
         }
 
         return $this;
@@ -102,13 +105,13 @@ class Data implements DataInterface
      *
      * @param  object $param
      * @return $this
-     * @throws \InvalidArgumentException
+     * @throws InvalidParameterException
      */
     public function setByObject($param)
     {
         // check for DataContainer instances - because otherwise you can't easily access virtual properties
         if (is_object($param)) {
-            if (is_a($param, 'Asm\Data\Data', true)) {
+            if (is_a($param, DataInterface::class, true)) {
                 foreach ($param->toArray() as $key => $value) {
                     $this->set($key, $value);
                 }
@@ -119,8 +122,8 @@ class Data implements DataInterface
                 }
             }
         } else {
-            throw new \InvalidArgumentException(
-                'Data::setByObject() - param is no object!'
+            throw new InvalidParameterException(
+                "Data::setByObject() - param is a {gettype($param)},no object!"
             );
         }
 
@@ -131,15 +134,35 @@ class Data implements DataInterface
      * Fill datastore from json string.
      *
      * @param string $json
-     * @return $this|mixed
+     * @return $this
      */
-    public function setByJson($json)
+    public function setByJson(string $json)
     {
         $this->setByArray(
             json_decode($json, true)
         );
 
         return $this;
+    }
+
+    /**
+     * Return stored data array.
+     *
+     * @return array
+     */
+    public function toArray() : array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Convert internal data to json.
+     *
+     * @return string
+     */
+    public function toJson() : string
+    {
+        return json_encode($this->data);
     }
 
     /**
@@ -163,7 +186,7 @@ class Data implements DataInterface
      *
      * @return array keylist
      */
-    public function getKeys()
+    public function getKeys() : array
     {
         return array_keys($this->data);
     }
@@ -174,7 +197,7 @@ class Data implements DataInterface
      * @param  string $key
      * @return $this
      */
-    public function remove($key)
+    public function remove(string $key)
     {
         if (array_key_exists($key, $this->data)) {
             unset($this->data[$key]);
@@ -184,40 +207,18 @@ class Data implements DataInterface
     }
 
     /**
-     * Return stored data array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return $this->data;
-    }
-
-    /**
-     * Convert internal data to json.
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this->data);
-    }
-
-
-    /**
      * Return count of all firstlevel elements.
      *
      * @return int
      */
-    public function count()
+    public function count() : int
     {
         return count($this->data);
     }
 
     /**
      * Find a key in an array.
-     *
-     * example Data::findInArray(array(), key1, key2, key3, ..., default_return)
+     * example self::findInArray(array(), key1, key2, key3, ..., default_return)
      *
      * @return array|bool|mixed
      */
@@ -230,17 +231,6 @@ class Data implements DataInterface
             $args,
             $data
         );
-    }
-
-    /**
-     * Normalize a key.
-     *
-     * @param  string $key
-     * @return string
-     */
-    public static function normalize($key)
-    {
-        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $key))));
     }
 
     /**

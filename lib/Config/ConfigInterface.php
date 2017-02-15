@@ -15,7 +15,7 @@ use Asm\Data\DataInterface;
  * Interface ConfigInterface
  *
  * @package Asm\Config
- * @author marc aschmann <maschmann@gmail.com>
+ * @author Marc Aschmann <maschmann@gmail.com>
  * @uses Asm\Data\DataInterface
  * @codeCoverageIgnore
  */
@@ -27,15 +27,17 @@ interface ConfigInterface extends DataInterface
      *
      * @param string $name name of property
      * @param string $file string $file absolute filepath/filename.ending
+     * @return $this
      */
-    public function addconfig($name, $file);
+    public function addConfig(string $name, string $file);
 
     /**
      * Add config to data storage.
      *
      * @param string $file absolute filepath/filename.ending
+     * @return $this
      */
-    public function setConfig($file);
+    public function setConfig(string $file);
 
     /**
      * Read config file via YAML parser.
@@ -43,5 +45,5 @@ interface ConfigInterface extends DataInterface
      * @param string $file absolute filepath/filename.ending
      * @return array  config array
      */
-    public function readConfig($file);
+    public function readConfig(string $file) : array;
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
  * This file is part of the php-utilities package.
  *
@@ -15,7 +16,7 @@ use Asm\Data\Data;
  * Class ConfigDefault
  *
  * @package Asm\Config
- * @author marc aschmann <maschmann@gmail.com>
+ * @author Marc Aschmann <maschmann@gmail.com>
  */
 final class ConfigEnv extends AbstractConfig implements ConfigInterface
 {
@@ -31,12 +32,12 @@ final class ConfigEnv extends AbstractConfig implements ConfigInterface
      */
     public function __construct(array $param)
     {
-        if (isset($param['filecheck'])) {
-            $this->filecheck = (bool)$param['filecheck'];
+        if (isset($param[self::FILECHECK])) {
+            $this->filecheck = (bool)$param[self::FILECHECK];
         }
 
-        if (!empty($param['defaultEnv'])) {
-            $this->defaultEnv = $param['defaultEnv'];
+        if (!empty($param[self::DEFAULT_ENVIRONMENT])) {
+            $this->defaultEnv = $param[self::DEFAULT_ENVIRONMENT];
         }
 
         $this->mergeEnvironments($param);
@@ -44,20 +45,19 @@ final class ConfigEnv extends AbstractConfig implements ConfigInterface
 
     /**
      * Merge environments based on defaults array.
-     *
      * Merge order is prod -> lesser environment.
      *
      * @param array $param
      */
-    private function mergeEnvironments($param)
+    private function mergeEnvironments(array $param)
     {
         $config = new Data();
         $config->setByArray(
             $this->readConfig($param['file'])
         );
 
-        if (!empty($param['env']) && $this->defaultEnv !== $param['env']) {
-            $toMerge = $config->get($param['env'], []);
+        if (!empty($param[self::ENVIRONMENT]) && $this->defaultEnv !== $param[self::ENVIRONMENT]) {
+            $toMerge = $config->get($param[self::ENVIRONMENT], []);
             $merged = array_replace_recursive(
                 $config->get($this->defaultEnv),
                 $toMerge

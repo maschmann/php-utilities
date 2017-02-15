@@ -9,11 +9,14 @@
  */
 namespace Asm\Data;
 
+use Asm\Exception\InvalidParameterException;
+use Asm\Exception\InvalidParameterSetException;
+
 /**
  * Interface DataInterface
  *
  * @package Asm\Data
- * @author marc aschmann <maschmann@gmail.com>
+ * @author Marc Aschmann <maschmann@gmail.com>
  */
 interface DataInterface
 {
@@ -29,26 +32,27 @@ interface DataInterface
      *
      * $this->set( $key1, $key2, $key3, ..., $mixVal )
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidParameterSetException
      * @return $this
      */
     public function set();
 
     /**
-     * Add array content by iteration to interal array.
+     * Set list of key/value pairs via one dimensional array.
+     * Careful: An empty array will just overwrite your internal storage.
      *
      * @param  array $param
      * @return $this
-     * @throws \InvalidArgumentException
      */
     public function setByArray(array $param);
 
     /**
-     * Adds given object's properties to interal array.
+     * Adds given object's properties to interal array or migrates
+     * another DataInterface object's contents to current object.
      *
      * @param  object $param
      * @return $this
-     * @throws \InvalidArgumentException
+     * @throws InvalidParameterException
      */
     public function setByObject($param);
 
@@ -56,9 +60,23 @@ interface DataInterface
      * Fill datastore by json string.
      *
      * @param string $json
-     * @return mixed
+     * @return $this
      */
-    public function setByJson($json);
+    public function setByJson(string $json);
+
+    /**
+     * Return stored data array.
+     *
+     * @return array
+     */
+    public function toArray() : array;
+
+    /**
+     * Convert internal data to json.
+     *
+     * @return string
+     */
+    public function toJson() : string;
 
     /**
      * Multidimensional getter.
@@ -76,19 +94,27 @@ interface DataInterface
      * @param string $key
      * @return $this
      */
-    public function remove($key);
+    public function remove(string $key);
 
     /**
      * Get all firstlevel keys of interal array.
      *
-     * @return array keylist
+     * @return array
      */
-    public function getKeys();
+    public function getKeys() : array;
 
     /**
      * Return count of all firstlevel elements.
      *
      * @return int
      */
-    public function count();
+    public function count() : int;
+
+    /**
+     * Find a key in an array.
+     * example self::findInArray(array(), key1, key2, key3, ..., default_return)
+     *
+     * @return array|bool|mixed
+     */
+    public static function findInArray();
 }

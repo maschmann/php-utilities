@@ -13,41 +13,44 @@ namespace Asm\Data;
  * Class DataCollection
  *
  * @package Asm\Data
- * @author marc aschmann <maschmann@gmail.com>
+ * @author Marc Aschmann <maschmann@gmail.com>
  */
-final class DataCollection extends Data implements DataInterface, \Iterator
+final class DataCollection implements DataCollectionInterface
 {
+    use DataTrait;
+
+    const STORAGE_KEY = 'items';
 
     /**
-     * @var integer
+     * @var int
      */
     private $position;
 
     /**
      * @param array $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data)
     {
         if (null !== $data && is_array($data)) {
-            $this->set('items', $data);
+            $this->set(self::STORAGE_KEY, $data);
         }
 
         $this->position = 0;
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 >= 5.0.0)<br/>
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed Can return any type.
      */
     public function current()
     {
-        return $this->get('items', $this->position);
+        return $this->get(self::STORAGE_KEY, $this->position);
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 >= 5.0.0)<br/>
      * Move forward to next element
      * @link http://php.net/manual/en/iterator.next.php
      * @return void Any returned value is ignored.
@@ -58,10 +61,10 @@ final class DataCollection extends Data implements DataInterface, \Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 >= 5.0.0)<br/>
      * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
-     * @return integer scalar on success, or null on failure.
+     * @return int scalar on success, or null on failure.
      */
     public function key()
     {
@@ -69,19 +72,19 @@ final class DataCollection extends Data implements DataInterface, \Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 >= 5.0.0)<br/>
      * Checks if current position is valid
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
+     * @return bool The return value will be casted to bool and then evaluated.
      *                 Returns true on success or false on failure.
      */
-    public function valid()
+    public function valid() : bool
     {
-        return $this->get('items', $this->position, false);
+        return (bool)$this->get(self::STORAGE_KEY, $this->position, false);
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 >= 5.0.0)<br/>
      * Rewind the Iterator to the first element
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void Any returned value is ignored.
@@ -92,59 +95,59 @@ final class DataCollection extends Data implements DataInterface, \Iterator
     }
 
     /**
-     * add element to store
+     * Add element to store.
      *
-     * @param  mixed   $item
-     * @param  integer $position
+     * @param  mixed $item
+     * @param  int $position
      * @return $this
      */
     public function addItem($item, $position = null)
     {
         if (null === $position) {
-            $items = $this->get('items', []);
+            $items = $this->get(self::STORAGE_KEY, []);
             array_push($items, $item);
-            $this->set('items', $items);
+            $this->set(self::STORAGE_KEY, $items);
         } else {
-            $this->set('items', $position, $item);
+            $this->set(self::STORAGE_KEY, $position, $item);
         }
 
         return $this;
     }
 
     /**
-     * get element from store
+     * Get element from store.
      *
-     * @param  int        $position
+     * @param  int $position
      * @return bool|mixed
      */
-    public function getItem($position = 0)
+    public function getItem(int $position = 0)
     {
-        return $this->get('items', $position, false);
+        return $this->get(self::STORAGE_KEY, $position, false);
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function count()
+    public function count() : int
     {
-        return count($this->get('items', []));
+        return count($this->get(self::STORAGE_KEY, []));
     }
 
     /**
      * remove item from position
      * be carefull: this also reindexes the array
      *
-     * @param  integer $position
+     * @param  int $position
      * @return $this
      */
-    public function removeItem($position)
+    public function removeItem(int $position)
     {
-        $items = $this->get('items', []);
+        $items = $this->get(self::STORAGE_KEY, []);
 
         if (isset($items[$position])) {
             unset($items[$position]);
-            $this->set('items', null);
-            $this->set('items', array_values($items));
+            $this->set(self::STORAGE_KEY, null);
+            $this->set(self::STORAGE_KEY, array_values($items));
         }
 
         return $this;
