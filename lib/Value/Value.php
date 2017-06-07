@@ -1,0 +1,52 @@
+<?php
+declare(strict_types=1);
+
+namespace Asm\Value;
+
+use Asm\Exception\TypeNotFoundException;
+use Asm\Value\Scalar\BoolValue;
+use Asm\Value\Scalar\FloatValue;
+use Asm\Value\Scalar\IntValue;
+use Asm\Value\Scalar\NaturalNumberValue;
+use Asm\Value\Scalar\StringValue;
+
+/**
+ * Value object factory
+ *
+ * @package Asm\Value
+ * @author Marc Aschmann <maschmann@gmail.com>
+ */
+class Value
+{
+    /**
+     * Tries to determine type of value and create an according object
+     *
+     * @param mixed $value
+     * @return ValueInterface
+     * @throws TypeNotFoundException
+     */
+    public static function build($value)
+    {
+        switch (true) {
+            case is_string($value):
+                $value = new StringValue($value);
+                break;
+            case is_int($value):
+                $value = new IntValue($value);
+                break;
+            case is_float($value):
+                $value = new FloatValue($value);
+                break;
+            case is_numeric($value) && 0 < $value:
+                $value = new NaturalNumberValue($value);
+                break;
+            case is_bool($value):
+                $value = new BoolValue($value);
+                break;
+            default:
+                throw new TypeNotFoundException($value);
+        }
+
+        return $value;
+    }
+}
