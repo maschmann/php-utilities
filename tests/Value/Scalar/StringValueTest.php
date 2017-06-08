@@ -23,6 +23,7 @@ class StringValueTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ValueInterface::class, $value);
         $value = new StringValue((string)2500); // HaHaHaHaHaHa :-D :-D :-D
         $this->assertInstanceOf(ValueInterface::class, $value);
+        $this->assertSame('2500', (string)$value);
     }
 
     public function testExceptionOnInvalidValue()

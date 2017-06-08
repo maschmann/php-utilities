@@ -24,7 +24,7 @@ class TypeNotFoundException extends \InvalidArgumentException
      */
     public function __construct($value)
     {
-        $message = sprintf('Type for "%s" could not be determined', $value);
+        $message = sprintf('Type for "%s" could not be determined', serialize($value));
         parent::__construct($message);
     }
 }

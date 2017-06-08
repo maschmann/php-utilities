@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Asm\Tests\Value;
 
+use Asm\Exception\TypeNotFoundException;
 use Asm\Value\Scalar\BoolValue;
 use Asm\Value\Scalar\FloatValue;
 use Asm\Value\Scalar\IntValue;
@@ -38,16 +39,16 @@ class ValueTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_float($value->value()));
     }
 
-    /*public function testCreateNaturalNumber()
-    {
-        $value = Value::build();
-        $this->assertInstanceOf(NaturalNumberValue::class, $value);
-    }*/
-
     public function testCreateBoolValue()
     {
         $value = Value::build(true);
         $this->assertInstanceOf(BoolValue::class, $value);
         $this->assertTrue(is_bool($value->value()));
+    }
+
+    public function testNoTypeFoundException()
+    {
+        $this->expectException(TypeNotFoundException::class);
+        $value = Value::build(new \stdClass());
     }
 }

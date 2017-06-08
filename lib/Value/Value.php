@@ -29,6 +29,10 @@ class Value
     /**
      * Tries to determine type of value and create an according object
      *
+     * Since natural numbers are a subset of int and float, we can not
+     * determine if the value should be int, float or a natural number
+     * (which would be most cases, anyway)
+     *
      * @param mixed $value
      * @return ValueInterface
      * @throws TypeNotFoundException
@@ -44,9 +48,6 @@ class Value
                 break;
             case is_float($value):
                 $value = new FloatValue($value);
-                break;
-            case is_numeric($value) && 0 < $value:
-                $value = new NaturalNumberValue($value);
                 break;
             case is_bool($value):
                 $value = new BoolValue($value);
