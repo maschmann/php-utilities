@@ -11,44 +11,23 @@ declare(strict_types=1);
 
 namespace Asm\Data;
 
-use Asm\Value\Value;
-
 /**
- * Class DataNode
+ * Interface DataNodeInterface
  *
  * @package Asm\Data
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-class DataNode
+interface DataNodeInterface
 {
-    /**
-     * @param mixed $name
-     * @param $value
-     */
-    public function __set($name, $value)
-    {
-        $this->{$name} = Value::build($value);
-    }
-
     /**
      * @param mixed $name
      * @return bool|mixed
      */
-    public function get($name)
-    {
-        if ($this->has($name)) {
-            return $this->{$name};
-        }
-
-        return false;
-    }
+    public function get($name);
 
     /**
      * @param mixed $name
      * @return bool
      */
-    public function has($name): bool
-    {
-        return property_exists($this, $name);
-    }
+    public function has($name): bool;
 }
