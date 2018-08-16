@@ -113,12 +113,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         // multi dimension array single value getter
         $mixResult = $data->get('testKey2', 'sub_test', 'subsubtest');
-
         $this->assertEquals('subvalue', $mixResult);
 
         // non existent keys
         $this->assertFalse($data->get('nothing'));
         $this->assertFalse($data->get('testKey2', 'nothing'));
+        $this->assertFalse($data->get('testKey2', 'test', 'nothing'));
         $this->assertFalse($data->get('testKey2', 'sub_test', 'nothing'));
         $this->assertTrue(is_array($data->get('testKey2', 'sub_test', '')));
 
