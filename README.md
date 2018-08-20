@@ -1,7 +1,6 @@
 php-utilities
 =============
 [![Build Status](https://travis-ci.org/maschmann/php-utilities.png?branch=master)](https://travis-ci.org/maschmann/php-utilities)
-[![phpci build status](http://phpci.br0ken.de/build-status/image/9)](http://phpci.br0ken.de)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maschmann/php-utilities/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maschmann/php-utilities/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/maschmann/php-utilities/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/maschmann/php-utilities/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/8c7f40ea-df80-4efe-a2e7-e3239c4805a0/mini.png)](https://insight.sensiolabs.com/projects/8c7f40ea-df80-4efe-a2e7-e3239c4805a0)
